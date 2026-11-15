@@ -77,9 +77,9 @@ def to_claude_agent(path: str) -> str:
     return f'---\nname: {name}\ndescription: "{desc}"\n---\n{body}'
 
 
-def instructions_for(skills: set[str]) -> list[str]:
-    files = sorted(f[: -len(".instructions.md")] for f in os.listdir(os.path.join(ROOT, "instructions")))
-    return files  # all instruction files are small and scoped by applyTo; install all
+def all_instructions() -> list[str]:
+    """All instruction files are small and scoped by applyTo, so every plugin installs them all."""
+    return sorted(f[: -len(".instructions.md")] for f in os.listdir(os.path.join(ROOT, "instructions")))
 
 
 def main() -> int:
@@ -96,7 +96,7 @@ def main() -> int:
     if "healthcare-core" not in plugins and plugins != ["all"]:
         plugins.append("healthcare-core")
     c = plugin_contents(plugins)
-    instr = instructions_for(c["skills"])
+    instr = all_instructions()
     tools = ["copilot", "claude"] if a.tool == "both" else [a.tool]
     print(f"Installing plugins {plugins} for {tools} into {proj}")
 
