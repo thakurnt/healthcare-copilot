@@ -2,7 +2,7 @@
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "healthcare-core",
   "description": "Foundation for all healthcare work: version resolution, interoperability architecture, security/privacy review, terminology and conformance testing.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": {
     "name": "Healthcare Copilot contributors"
   },

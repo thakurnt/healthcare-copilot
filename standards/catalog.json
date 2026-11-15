@@ -182,7 +182,7 @@
         { "transaction": "820", "tr3": "005010X218" }
       ],
       "versionDetection": ["ISA12 Interchange Control Version (e.g. 00501)", "GS08 Version/Release/Industry Identifier (e.g. 005010X222A1)", "ST03 Implementation Convention Reference"],
-      "sources": ["https://x12.org/products/releases", "https://www.cms.gov/priorities/key-initiatives/burden-reduction/administrative-simplification/hipaa/adopted-standards-operating-rules"]
+      "sources": ["https://x12.org/products", "https://www.cms.gov/priorities/key-initiatives/burden-reduction/administrative-simplification/hipaa/adopted-standards-operating-rules"]
     },
     {
       "id": "ncpdp",
@@ -198,7 +198,7 @@
         { "date": "2028-01-01", "item": "SCRIPT 2023011 for applicable Part D use cases (SCRIPT 2017071 applies before that date)" }
       ],
       "versionDetection": ["SCRIPT XML Message @version / TransportVersion / ECLVersion header attributes", "Trading partner (e.g. network) certification"],
-      "sources": ["https://www.ncpdp.org/Standards-Development/Standards-Information", "https://www.cms.gov/medicare/regulations-guidance/electronic-prescribing"],
+      "sources": ["https://standards.ncpdp.org/", "https://www.ncpdp.org/", "https://www.cms.gov/medicare/regulations-guidance/electronic-prescribing"],
       "verify": true
     },
     {

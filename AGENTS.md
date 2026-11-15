@@ -56,4 +56,16 @@ No third-party dependencies (Python 3.8+ standard library only).
 
 ## Before a PR
 
-Run `python3 .github/scripts/build.py`, commit regenerated docs, and test any script against `examples/`.
+```bash
+python3 .github/scripts/build.py           # regenerate docs, dist/plugins, marketplace
+python3 .github/scripts/content_lint.py    # HC001-HC007 content rules
+python3 -m unittest discover -s tests      # script + tooling tests
+```
+
+Bump `version` in `plugins/<name>/plugin.json` for every plugin whose packaged content changed (CI enforces it).
+
+## Maintainer automation
+
+- Maintainer agent: `.github/agents/healthcare-content-maintainer.agent.md`; skills in `.github/skills/` (`standards-fact-check`, `catalog-update`, `resource-authoring`).
+- Agentic workflows (gh-aw): `.github/workflows/*.md` → run `gh aw compile` after editing and commit the `.lock.yml`. Rules: `.github/aw/instructions.md`.
+- Full description: `docs/maintainers/automation.md`.

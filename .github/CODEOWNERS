@@ -1,0 +1,5 @@
+# Review policy: automation, catalog and core rules need maintainer review.
+*                                   @thakurnt
+/.github/                           @thakurnt
+/standards/catalog.json             @thakurnt
+/instructions/healthcare-version-resolution.instructions.md @thakurnt

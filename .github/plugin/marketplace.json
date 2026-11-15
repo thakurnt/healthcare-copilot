@@ -19,7 +19,7 @@
       "name": "healthcare-core",
       "source": "dist/plugins/healthcare-core",
       "description": "Foundation for all healthcare work: version resolution, interoperability architecture, security/privacy review, terminology and conformance testing.",
-      "version": "1.0.0"
+      "version": "1.0.1"
     },
     {
       "name": "healthcare-devices",
@@ -31,7 +31,7 @@
       "name": "healthcare-imaging",
       "source": "dist/plugins/healthcare-imaging",
       "description": "Medical imaging toolkit for PACS, RIS, VNA, modalities, gateways and viewers: DICOM, DICOMweb, PS3.15 security and IHE Radiology, targeted at your declared DICOM edition.",
-      "version": "1.0.0"
+      "version": "1.0.1"
     },
     {
       "name": "healthcare-revenue-cycle",

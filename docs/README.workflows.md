@@ -5,4 +5,4 @@ GitHub Agentic Workflows (`.md`).
 
 | Workflow | Description |
 |---|---|
-| [Standards Baseline Watch](../workflows/standards-baseline-watch.md) | Monthly agentic workflow that checks publisher pages listed in standards/catalog.json for new editions, releases or regulatory milestones and opens an issue proposing catalog updates — without changing project targets. |
+| [Healthcare Version Drift](../workflows/healthcare-version-drift.md) | For projects that use Healthcare Copilot: weekly comparison of the versions declared in .github/healthcare-profile.yml with version evidence in code, config and samples (MSH-12, fhirVersion, IG packages, GS08, DICOM transfer syntaxes, C-CDA template dates); opens one issue when they diverge. |

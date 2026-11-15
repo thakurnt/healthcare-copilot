@@ -91,7 +91,7 @@ The **kind** matters: DICOM and FHIR define technical models; IHE defines integr
 
 ## Research baseline (15 November 2026)
 
-Publication baselines — **not** default targets. Maintained in [standards/catalog.json](standards/catalog.json) and refreshed by the [Standards Baseline Watch](workflows/standards-baseline-watch.md) workflow.
+Publication baselines — **not** default targets. Maintained in [standards/catalog.json](standards/catalog.json) and refreshed by the [Standards Baseline Watch](.github/workflows/standards-baseline-watch.md) workflow.
 
 | Standard | Latest published | Watch out for |
 |---|---|---|
@@ -120,6 +120,10 @@ See [AGENTS.md](AGENTS.md) for authoring rules. Validate with:
 python3 .github/scripts/build.py          # validate + regenerate docs
 python3 .github/scripts/build.py --check  # CI
 ```
+
+## Automation
+
+Content is kept aligned, verified and validated by deterministic CI (build, content lint, tests, plugin version guard, source link check) plus advisory **gh-aw agentic workflows** (standards baseline watch, catalog impact analysis, weekly accuracy audit, PR standards review, staleness report), modelled on awesome-copilot. See [docs/maintainers/automation.md](docs/maintainers/automation.md).
 
 ## Roadmap
 
