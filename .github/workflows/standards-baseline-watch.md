@@ -13,7 +13,7 @@ imports:
 tools:
   github:
     toolsets: [repos, issues]
-  bash: ["cat", "ls", "grep", "head", "python3 -c:*", "python3 .github/scripts/content_lint.py"]
+  bash: ["cat", "ls", "grep", "head", "jq"]
 timeout-minutes: 30
 safe-outputs:
   create-issue:
@@ -30,7 +30,7 @@ You maintain the **published / mandated** facts in `standards/catalog.json` for 
 
 ## Tasks
 
-1. Read `standards/catalog.json`. For every standard, fetch its `sources` and determine whether there is a newer publication, edition, release, IG version or regulatory milestone than recorded in `latestPublished`, `knownVersions`, `implementationGuides`, `milestones` or `adoptedTransactionStandards`.
+1. Read `standards/catalog.json` (read the file, or use `jq` to list ids, `latestPublished` and `verify` flags). For every standard, fetch its `sources` and determine whether there is a newer publication, edition, release, IG version or regulatory milestone than recorded in `latestPublished`, `knownVersions`, `implementationGuides`, `milestones` or `adoptedTransactionStandards`.
 2. For every entry or sub-entry with `"verify": true`, try to confirm or correct it from an official source.
 3. Check open issues labelled `standards-catalog` so you don't re-propose something already tracked.
 

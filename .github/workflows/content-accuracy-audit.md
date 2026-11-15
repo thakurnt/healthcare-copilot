@@ -17,7 +17,7 @@ imports:
 tools:
   github:
     toolsets: [repos, issues]
-  bash: ["cat", "ls", "grep", "head", "sed", "wc", "date", "find", "python3 -c:*"]
+  bash: ["cat", "ls", "grep", "head", "sed", "wc", "date", "find", "sort"]
 timeout-minutes: 40
 safe-outputs:
   create-issue:
@@ -34,7 +34,7 @@ You audit healthcare engineering guidance for factual accuracy. Follow `.github/
 ## Select resources
 
 - If the `paths` input was provided, audit exactly those.
-- Otherwise build the sorted list of `agents/*.agent.md`, `instructions/*.instructions.md`, `skills/*/SKILL.md` and `skills/*/references/*.md`. Take the ISO week number `W` (`date +%V`) and audit the items at indexes `(3W) mod N`, `(3W+1) mod N`, `(3W+2) mod N`. This rotation covers the whole repository over time.
+- Otherwise list the files with `find agents instructions skills -type f \( -name '*.agent.md' -o -name '*.instructions.md' -o -name 'SKILL.md' -o -path '*/references/*.md' \) | sort` and number them from 0 to N-1. Take the ISO week number `W` (`date +%V`) and audit the items at indexes `(3W) mod N`, `(3W+1) mod N`, `(3W+2) mod N` (do the arithmetic yourself). This rotation covers the whole repository over time.
 
 ## Audit
 

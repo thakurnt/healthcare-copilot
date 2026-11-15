@@ -1,6 +1,6 @@
 # Version evidence — search recipes
 
-Regexes are written for ripgrep / most IDE regex search (PCRE-like). Escape `|` as `\|`. Record **only the captured value and the file path**.
+Regexes work in ripgrep, GNU `grep -E` and IDE regex search. In every pattern `|` means "or" and `\|` is a literal pipe (HL7 field separator). Record **only the captured value and the file path**.
 
 ## HL7 v2 — `MSH-12`
 - Files: `**/*.{hl7,er7,txt,msg}`, interface-engine channel exports, test fixtures.
@@ -11,15 +11,14 @@ Regexes are written for ripgrep / most IDE regex search (PCRE-like). Escape `|` 
 - Also useful: `MSH-9` message type `MSH\|[^|]*\|(?:[^|]*\|){6}([^|]*)`; interface engine config keys such as `version`, `hl7Version`.
 
 ## FHIR
-| Look for | Pattern | Where |
-|---|---|---|
-| Core version in JSON | `"fhirVersion"\s*:\s*"([^"]+)"` | CapabilityStatement, ImplementationGuide, fixtures |
-| Core version in XML | `<fhirVersion value="([^"]+)"` | |
-| Package versions | `"fhirVersions"\s*:\s*\[([^\]]*)\]` | `package.json` of IGs |
-| SUSHI | `^fhirVersion:\s*(\S+)` | `sushi-config.yaml` |
-| Core package / libs | `hl7\.fhir\.(r2\|r3\|r4\|r4b\|r5\|r6)\.core` · `FhirContext\.for(Dstu2\|Dstu3\|R4B?\|R5)` · `Hl7\.Fhir\.(STU3\|R4B?\|R5)` · `fhir\.resources\.(STU3\|R4B?\|R5)` | `pom.xml`, `build.gradle`, `*.csproj`, `package.json`, `requirements*.txt`, source |
-| IG dependencies | `"((?:hl7\|ihe)\.[a-z0-9.\-]+)"\s*:\s*"([^"]+)"` | `package.json`, `sushi-config.yaml` dependencies |
-| Versioned profiles | `/StructureDefinition/[^"\|]+\|([0-9][^"]*)` | `meta.profile`, `supportedProfile` |
+- Core version in JSON (CapabilityStatement, ImplementationGuide, fixtures): `"fhirVersion"\s*:\s*"([^"]+)"`
+- Core version in XML: `<fhirVersion value="([^"]+)"`
+- IG package versions (`package.json` of IGs): `"fhirVersions"\s*:\s*\[([^\]]*)\]`
+- SUSHI (`sushi-config.yaml`): `^fhirVersion:\s*(\S+)`
+- Core packages / libraries (`pom.xml`, `build.gradle`, `*.csproj`, `package.json`, `requirements*.txt`, source):
+  `hl7\.fhir\.(r2|r3|r4|r4b|r5|r6)\.core` · `FhirContext\.for(Dstu2|Dstu3|R4B?|R5)` · `Hl7\.Fhir\.(STU3|R4B?|R5)` · `fhir\.resources\.(STU3|R4B?|R5)`
+- IG dependencies (`package.json`, `sushi-config.yaml`): `"((?:hl7|ihe)\.[a-z0-9.\-]+)"\s*:\s*"([^"]+)"`
+- Versioned profiles (`meta.profile`, `supportedProfile`): `/StructureDefinition/[^"|]+\|([0-9][^"]*)`
 
 Version labels: 1.0.2 = DSTU2, 3.0.x = STU3, 4.0.x = R4, 4.3.0 = R4B, 5.0.0 = R5.
 

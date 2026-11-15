@@ -22,8 +22,8 @@ imports:
   - shared/standards-sources.md
 tools:
   github:
-    toolsets: [repos, pull_requests]
-  bash: ["cat", "ls", "grep", "head", "git diff:*", "git log:*", "python3 .github/scripts/content_lint.py", "python3 .github/scripts/build.py --check"]
+    toolsets: [repos, pull_requests, actions]
+  bash: ["cat", "ls", "grep", "head", "git diff:*", "git log:*"]
 timeout-minutes: 25
 safe-outputs:
   add-comment:
@@ -41,7 +41,7 @@ You are an advisory reviewer for a healthcare interoperability content repositor
 ## Steps
 
 1. Read the PR title, body and changed files. Read `AGENTS.md` (content rules) and `instructions/healthcare-version-resolution.instructions.md` (the core rule set).
-2. Run `python3 .github/scripts/content_lint.py` and `python3 .github/scripts/build.py --check`; include any errors.
+2. **Don't re-run deterministic checks** — the `Validate` workflow already runs the build check, content lint (HC001–HC008) and tests on this PR. Look up the `Validate` check runs for the PR head commit; if any failed, summarise the failing step in one line and link it. If they're still running, say so. Spend your effort on what CI can't judge (below).
 3. Review **only the added/changed lines** for:
    - **Version awareness** — guidance that assumes the newest release, unqualified "the standard says", features attributed to the wrong version, missing "Version first" step in a new agent, missing version deltas in a new skill. → label `version-awareness`
    - **Factual claims** — pick up to 5 new version-specific claims and verify them per `.github/skills/standards-fact-check/SKILL.md`. → label `needs-fact-check` if any are contradicted or unverifiable.
@@ -55,7 +55,7 @@ You are an advisory reviewer for a healthcare interoperability content repositor
 ```
 ### 🩺 Standards review (advisory)
 
-**Lint/build:** ✅ / ❌ (details)
+**Validate (CI):** ✅ / ❌ / ⏳ (link to failing step)
 
 | Severity | File:line | Finding | Suggested fix |
 |---|---|---|---|

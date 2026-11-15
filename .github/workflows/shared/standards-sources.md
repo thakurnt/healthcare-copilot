@@ -6,7 +6,6 @@ tools:
 network:
   allowed:
     - defaults
-    - python
     - "www.dicomstandard.org"
     - "dicom.nema.org"
     - "hl7.org"

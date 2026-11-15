@@ -16,7 +16,7 @@ checkout:
 tools:
   github:
     toolsets: [repos, issues]
-  bash: ["cat", "ls", "grep", "head", "git diff:*", "git log:*", "git show:*", "python3 -c:*"]
+  bash: ["cat", "ls", "grep", "head", "jq", "git diff:*", "git log:*", "git show:*"]
 timeout-minutes: 20
 safe-outputs:
   create-issue:
@@ -33,7 +33,7 @@ safe-outputs:
 ## Steps
 
 1. Run `git diff HEAD~1 HEAD -- standards/catalog.json` and list each changed standard id and field.
-2. For each change, search for content that restates the old value or now conflicts:
+2. For each change, search with `grep -rn` (exclude `dist/` and generated `docs/README.*.md`) for content that restates the old value or now conflicts:
    - `README.md` (research baseline table), `docs/*.md`
    - `agents/`, `instructions/`, `skills/**` (especially `references/` version tables)
    - `templates/healthcare-profile.yml` comments, `templates/agent-version-protocol.md`

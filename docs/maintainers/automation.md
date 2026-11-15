@@ -42,6 +42,7 @@ Content lint rules (`.github/scripts/content_lint.py`):
 | HC006 | Examples carry synthetic markers (HL7 PID, X12 member, DICOM PatientName) |
 | HC007 | Catalog sources are https |
 | HC008 | Skills are tool-first: a bundled script is optional (`## Optional script`, compatibility says so) |
+| HC009 | Agentic workflows are tool-first: no Python/repository scripts in `bash` allowlists, no `python` network ecosystem |
 | HC101/102 | Warnings: catalog baseline age, remaining `verify:true` entries |
 
 ### Agentic (advisory, gh-aw)
@@ -54,9 +55,9 @@ Content lint rules (`.github/scripts/content_lint.py`):
 | `pr-standards-review.md` | PRs touching content | 1 advisory comment + labels | Version-awareness, fact spot-checks, PHI, spec-kind labelling |
 | `resource-staleness-report.md` | Monthly | 1 issue (`staleness`), closes older | Resources not updated since their standards changed in the catalog |
 
-All import `shared/standards-sources.md` where web access is needed: `web-fetch` restricted by `network.allowed` to official publishers (DICOM/NEMA, HL7, IHE, X12, CMS, eCFR, NCPDP, IEEE, SNOMED, LOINC, NLM, UCUM, WHO).
+All agentic workflows are **tool-first**: they use GitHub MCP toolsets, `web-fetch` and read-only shell commands (`grep`, `find`, `jq`, `git`) — no Python or repository scripts (HC009). `pr-standards-review` reads the `Validate` check results instead of re-running them. Fact-checking workflows import `shared/standards-sources.md`: `web-fetch` restricted by `network.allowed` to official publishers (DICOM/NEMA, HL7, IHE, X12, CMS, eCFR, NCPDP, IEEE, SNOMED, LOINC, NLM, UCUM, WHO).
 
-Consumer-facing workflow (in `workflows/`, for projects that *use* Healthcare Copilot): `healthcare-version-drift.md` compares a project's `healthcare-profile.yml` with version evidence in its code.
+Consumer-facing workflow (in `workflows/`, for projects that *use* Healthcare Copilot): `healthcare-version-drift.md` compares a project's `healthcare-profile.yml` with version evidence in its code. It embeds its own search patterns, so it works for plugin installs too (no skill files or Python needed in the consumer repo).
 
 ### Maintainer agent & skills
 

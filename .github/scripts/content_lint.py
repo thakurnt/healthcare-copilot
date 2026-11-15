@@ -11,6 +11,7 @@ Errors (exit 1):
   HC006  synthetic example contains an HL7 PID / X12 member / DICOM name without a TEST marker
   HC007  catalog source URL is not https
   HC008  skill bundles a script but has no '## Optional script' section / does not mark Python optional
+  HC009  agentic workflow runs Python/repository scripts or allows the python network ecosystem (must be tool-first)
 Warnings:
   HC101  catalog researchBaseline older than --max-baseline-age days
   HC102  catalog entries still marked verify:true
@@ -152,6 +153,28 @@ def check_skill_tool_first() -> None:
             add("error", "HC008", p, 1, "compatibility must state that Python/script is optional")
 
 
+def check_workflows_tool_first() -> None:
+    """Agentic workflows (gh-aw .md) use built-in tools only; deterministic checks live in Actions YAML."""
+    for folder in (".github/workflows", "workflows"):
+        d = os.path.join(ROOT, folder)
+        if not os.path.isdir(d):
+            continue
+        for f in sorted(os.listdir(d)):
+            if not f.endswith(".md"):
+                continue
+            p = os.path.join(d, f)
+            text = open(p, encoding="utf-8").read()
+            m = re.match(r"^---\n(.*?)\n---\n", text, re.S)
+            if not m or not re.search(r"^on:", m.group(1), re.M):
+                continue
+            fm = m.group(1)
+            for i, line in enumerate(fm.splitlines(), 2):
+                if re.match(r"\s*bash:", line) and re.search(r"python|\.github/scripts/", line):
+                    add("error", "HC009", p, i, "agentic workflow bash allowlist runs Python/repo scripts; use built-in tools and read CI results instead")
+                if re.match(r"\s*-\s*python\s*$", line):
+                    add("error", "HC009", p, i, "agentic workflow allows the 'python' network ecosystem; not needed for tool-first workflows")
+
+
 def check_examples() -> None:
     d = os.path.join(ROOT, "examples")
     if not os.path.isdir(d):
@@ -199,6 +222,7 @@ def main() -> int:
     check_links_and_latest()
     check_script_imports()
     check_skill_tool_first()
+    check_workflows_tool_first()
     check_examples()
     check_catalog(a.max_baseline_age)
     errors = 0

@@ -13,7 +13,7 @@ checkout:
 tools:
   github:
     toolsets: [repos, issues]
-  bash: ["cat", "ls", "grep", "head", "date", "find", "git log:*", "git show:*", "python3 -c:*"]
+  bash: ["cat", "ls", "grep", "head", "date", "find", "git log:*", "git show:*"]
 timeout-minutes: 25
 safe-outputs:
   create-issue:
