@@ -47,7 +47,7 @@ metadata:
 
 ## Steps
 1. Resolve the target version(s) (profile → artifacts → ask). Do not assume the latest release.
-2. TODO
+2. TODO — use built-in search/read tools; give regex patterns. (If you add a script, document it under "## Optional script" and mark Python optional in `compatibility`.)
 3. Report with a **Target** line first.
 
 ## Version notes

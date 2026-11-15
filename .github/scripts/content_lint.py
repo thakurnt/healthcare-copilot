@@ -10,6 +10,7 @@ Errors (exit 1):
   HC005  skill script imports a non-standard-library module
   HC006  synthetic example contains an HL7 PID / X12 member / DICOM name without a TEST marker
   HC007  catalog source URL is not https
+  HC008  skill bundles a script but has no '## Optional script' section / does not mark Python optional
 Warnings:
   HC101  catalog researchBaseline older than --max-baseline-age days
   HC102  catalog entries still marked verify:true
@@ -33,6 +34,7 @@ LATEST_RE = re.compile(r"\b(use|target|assume|default to|pick|choose|upgrade to)
 NEGATION_RE = re.compile(r"\b(never|not|don't|do not|rather than|instead of|isn't|is not|without)\b", re.I)
 FENCE_RE = re.compile(r"```.*?```", re.S)
 LINK_RE = re.compile(r"\]\(([^)\s]+)\)")
+INLINE_CODE_RE = re.compile(r"`[^`\n]*`")
 
 findings: list[tuple[str, str, str, int, str]] = []  # level, code, path, line, msg
 
@@ -93,7 +95,8 @@ def check_links_and_latest() -> None:
     for p in walk((".md",)):
         text = open(p, encoding="utf-8").read()
         prose = FENCE_RE.sub(lambda m: "\n" * m.group(0).count("\n"), text)
-        for m in LINK_RE.finditer(prose):
+        no_code = INLINE_CODE_RE.sub(lambda m: " " * len(m.group(0)), prose)  # regexes in `code` aren't links
+        for m in LINK_RE.finditer(no_code):
             target = m.group(1).split("#")[0]
             if not target or re.match(r"^[a-z]+:", target) or "<" in target or target.startswith("#"):
                 continue
@@ -131,6 +134,22 @@ def check_script_imports() -> None:
                         top = mod.split(".")[0]
                         if top not in stdlib and top != "__future__":
                             add("error", "HC005", p, node.lineno, f"non-stdlib import '{mod}' (skill scripts must be stdlib-only)")
+
+
+def check_skill_tool_first() -> None:
+    """Users may not have Python: skills must work with built-in tools; scripts are optional."""
+    d = os.path.join(ROOT, "skills")
+    for name in sorted(os.listdir(d)):
+        scripts = os.path.join(d, name, "scripts")
+        if not os.path.isdir(scripts) or not any(f.endswith(".py") for f in os.listdir(scripts)):
+            continue
+        p = os.path.join(d, name, "SKILL.md")
+        text = open(p, encoding="utf-8").read()
+        if not re.search(r"^##\s+Optional script", text, re.M):
+            add("error", "HC008", p, 1, "skill bundles a script: add an '## Optional script' section and a default procedure using built-in search/read tools")
+        m = re.search(r"^compatibility:\s*(.*)$", text, re.M)
+        if not m or "optional" not in m.group(1).lower():
+            add("error", "HC008", p, 1, "compatibility must state that Python/script is optional")
 
 
 def check_examples() -> None:
@@ -179,6 +198,7 @@ def main() -> int:
     check_agents()
     check_links_and_latest()
     check_script_imports()
+    check_skill_tool_first()
     check_examples()
     check_catalog(a.max_baseline_age)
     errors = 0

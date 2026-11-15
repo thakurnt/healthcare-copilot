@@ -1,40 +1,56 @@
 ---
 name: healthcare-version-detect
-description: 'Detect which healthcare standard versions a project actually uses (HL7 v2 MSH-12, FHIR core/IG versions, DICOM transfer syntaxes and edition references, C-CDA template versions, X12 ISA12/GS08, NCPDP SCRIPT version) and draft a healthcare-profile.yml. Use before any version-dependent healthcare work, when the user says "which version are we on", "set up healthcare profile", or when no profile exists.'
+description: 'Detect which healthcare standard versions a project actually uses (HL7 v2 MSH-12, FHIR core/IG versions, DICOM edition and transfer syntaxes, C-CDA template versions, X12 ISA12/GS08, NCPDP SCRIPT version) using the agent''s built-in search tools, and draft a healthcare-profile.yml. Use before any version-dependent healthcare work, when the user says "which version are we on", "set up healthcare profile", or when no profile exists.'
 license: MIT
-compatibility: 'Python 3.8+ standard library only. Read-only; prints version metadata, never message content.'
+compatibility: 'No dependencies: works with built-in search/read tools (GitHub Copilot, Claude Code). Optional accelerator script needs Python 3.8+ (standard library only).'
 metadata:
-  version: "1.0"
+  version: "1.1"
 ---
 
 # Healthcare Version Detect
 
 Establishes the **target versions** that every other agent and skill must honour. Healthcare projects commonly run older releases (DICOM 2024e, HL7 v2.3.1, FHIR R4, X12 005010) — the goal is to find what is actually in use, not what is newest.
 
-## Steps
+## Step 1 — Existing profile
+Look for `.github/healthcare-profile.yml` or `healthcare-profile.yml`. If present and complete, use it and stop.
 
-1. Look for an existing profile: `.github/healthcare-profile.yml` or `healthcare-profile.yml`. If present and complete, use it and stop.
-2. Run the scanner from the project root:
-   ```bash
-   python3 <skill-dir>/scripts/detect_versions.py . 
-   python3 <skill-dir>/scripts/detect_versions.py . --json   # machine-readable
-   ```
-3. Interpret the evidence (see table). Conflicting values are normal — e.g. two HL7 v2 versions means two interfaces; record both.
-   | Finding | Meaning |
-   |---|---|
-   | `hl7v2.MSH-12` | v2 version per message sample; group by sending system |
-   | `fhir.fhirVersion` / `fhir.package.fhirVersions` / `fhir.sushi.fhirVersion` | FHIR core version of server/IG |
-   | `fhir.core_package`, `fhir.hapi_context`, `fhir.dotnet_package`, `fhir.python_package` | Version the code is compiled against |
-   | `fhir.ig_dependencies` | IG versions — each has its own FHIR version |
-   | `dicom.transfer_syntax`, `dicom.sop_class` | What peers actually send; retired syntaxes flag legacy devices |
-   | `dicom.edition_reference` | Edition named in docs / conformance statement |
-   | `ccda.us_realm_header` | C-CDA release (extension date) of documents |
-   | `x12.ISA12`, `x12.GS08` | X12 release and TR3 (e.g. `005010X222A1`) |
-   | `ncpdp.script_version` | SCRIPT version in sample messages |
-4. Ask the user only about gaps that change the work (e.g. "No DICOM edition found — which edition is your conformance statement written against?").
-5. Draft `.github/healthcare-profile.yml` from [assets/healthcare-profile.yml](assets/healthcare-profile.yml), filling detected values and leaving `# TODO confirm` comments on anything inferred. Show the diff to the user before writing.
+## Step 2 — Collect evidence with built-in search (default)
 
-## Notes
-- The scanner skips `node_modules`, `.git`, build folders and files > 2 MB.
-- It reads the DICOM Part 10 meta header only (group 0002) — no pixel data or patient attributes.
-- Evidence is not intent: a fixture in `tests/legacy/` may be deliberately old. Confirm with the user before treating a single file as the target.
+Use your own search tools (Copilot: text/regex search and codebase search; Claude Code: Grep and Glob). Run the regex searches in [references/search-recipes.md](references/search-recipes.md), one standard at a time, only for standards that plausibly apply (check file types first with a glob such as `**/*.{hl7,er7,edi,x12,dcm,json,xml,fsh,yaml}`).
+
+**PHI-safe search rules — mandatory:**
+- Search for the **version marker only** and record the matched value + file path. Use "only matching"/output-limited modes where available.
+- **Do not open** whole HL7 messages, claims, C-CDA documents, SCRIPT messages or DICOM files to "have a look". If you must read a file to disambiguate, read only its first lines (e.g. the `MSH` or `ISA`/`GS` segment) and do not repeat identifiers in your answer.
+- Skip `node_modules/`, `.git/`, build output and vendored dependencies.
+- Cap the work: when a pattern matches many files, sample up to ~20 per folder and report counts.
+
+## Optional script (alternative to Step 2)
+If `python3` is available and running commands is allowed, the bundled scanner gives the same evidence in one deterministic pass, including DICOM binary headers (which text search usually skips), and never prints message content:
+```bash
+python3 <skill-dir>/scripts/detect_versions.py .          # human-readable
+python3 <skill-dir>/scripts/detect_versions.py . --json   # machine-readable
+```
+Prefer it for very large repositories or folders full of DICOM files. If it is unavailable, do not ask the user to install Python — use Step 2.
+
+## Step 3 — Interpret
+Conflicting values are normal (e.g. two HL7 v2 versions = two interfaces). Group by folder / sending system / trading partner.
+
+| Evidence | Meaning |
+|---|---|
+| HL7 v2 `MSH-12` | v2 version per interface |
+| FHIR `fhirVersion` / `fhirVersions` / sushi `fhirVersion` | FHIR core version of server or IG |
+| `hl7.fhir.rX.core`, `FhirContext.forRX()`, `Hl7.Fhir.RX`, `fhir.resources.RX` | Version the code is built against |
+| IG package dependencies, `meta.profile|x.y.z` | IG versions — each has its own FHIR version |
+| DICOM transfer syntax / SOP Class UIDs | What peers send; retired syntaxes flag legacy devices |
+| DICOM edition text (e.g. `2024e`) | Edition of the conformance statement |
+| C-CDA US Realm Header `@extension` | C-CDA release of documents |
+| X12 `ISA12`, `GS08` | X12 release and TR3 (e.g. `005010X222A1`) |
+| NCPDP `TransportVersion` / `version` | SCRIPT version |
+
+Evidence is not intent: a fixture in `tests/legacy/` may be deliberately old. Confirm with the user before treating a single file as the target.
+
+## Step 4 — Ask about gaps
+Ask only about gaps that change the work (e.g. "No DICOM edition found — which edition is your conformance statement written against?").
+
+## Step 5 — Draft the profile
+Draft `.github/healthcare-profile.yml` from [assets/healthcare-profile.yml](assets/healthcare-profile.yml), filling detected values and leaving `# TODO confirm` comments on anything inferred. Show it to the user before writing.

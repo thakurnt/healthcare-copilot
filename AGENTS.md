@@ -34,13 +34,13 @@ python3 .github/scripts/build.py --check  # CI mode
 python3 skills/healthcare-version-detect/scripts/detect_versions.py examples
 ```
 
-No third-party dependencies (Python 3.8+ standard library only).
+Repository tooling needs Python 3.8+ (standard library only). **Skills must not**: users may have no Python, so every skill works with the agent's built-in search/read tools and bundled scripts are optional accelerators.
 
 ## Resource requirements
 
 - **Agents** (`agents/*.agent.md`): `description` required; `name` and `tools` recommended; kebab-case file names. Body must include a "Version first" step.
 - **Instructions** (`instructions/*.instructions.md`): `description` and `applyTo` required.
-- **Skills** (`skills/<name>/SKILL.md`): `name` equals folder name (≤64 chars, kebab-case); `description` 10–1024 chars; reference bundled assets from SKILL.md; scripts must be stdlib-only and must not print PHI.
+- **Skills** (`skills/<name>/SKILL.md`): `name` equals folder name (≤64 chars, kebab-case); `description` 10–1024 chars; reference bundled assets from SKILL.md. Tool-first: the default procedure uses built-in search/read tools; a bundled script is optional, documented under an `## Optional script` section, stdlib-only, and must not print PHI (HC008).
 - **Hooks**: `README.md` with `name`, `description`, `tags`; `hooks.json`.
 - **Workflows**: `name`, `description`, gh-aw frontmatter.
 - **Plugins**: `plugin.json` with `$schema`, `name` (= folder), `description`, `version`; content under `extensions.com.github.awesome-copilot`.

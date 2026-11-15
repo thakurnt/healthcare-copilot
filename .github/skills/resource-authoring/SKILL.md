@@ -20,7 +20,7 @@ python3 .github/skills/resource-authoring/scripts/new_resource.py instruction nc
 - Agents: a `## Version first` section that resolves the target version per `instructions/healthcare-version-resolution.instructions.md` (HC001).
 - Never direct readers to "use the latest" release (HC004).
 - Version facts live in `references/*.md` tables with explicit version columns; phrase as "introduced/changed/removed in vX".
-- Scripts: stdlib-only (HC005), read-only, never print message content/PHI by default.
+- Tool-first: the default steps use the agent's built-in search/read tools (give regex patterns). A script is an optional accelerator under `## Optional script`, with the `compatibility` field saying Python is optional (HC008). Scripts are stdlib-only (HC005), read-only and never print message content/PHI by default.
 - Examples: synthetic, with TEST markers (HC006), in a folder named for the version (`examples/<standard>/<version>/`). Add at least one **older** version example when relevant.
 - Distinguish technical standard / integration profile / IG / legal / terminology.
 

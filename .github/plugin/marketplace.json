@@ -13,7 +13,7 @@
       "name": "healthcare",
       "source": "dist/plugins/healthcare",
       "description": "Version-aware healthcare interoperability engineering for every healthcare business \u2014 imaging (DICOM/DICOMweb/PACS), clinical interop (HL7 v2, FHIR, CDA/C-CDA), IHE, revenue cycle (X12, NCPDP, HIPAA), medical devices (IEEE 11073) and terminology. All agents and skills resolve the standard version your project uses (e.g. DICOM 2024e, HL7 v2.3.1, FHIR R4) instead of assuming the latest.",
-      "version": "1.0.0"
+      "version": "1.1.0"
     }
   ]
 }

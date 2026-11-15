@@ -41,6 +41,7 @@ Content lint rules (`.github/scripts/content_lint.py`):
 | HC005 | Skill/hook scripts import only the standard library |
 | HC006 | Examples carry synthetic markers (HL7 PID, X12 member, DICOM PatientName) |
 | HC007 | Catalog sources are https |
+| HC008 | Skills are tool-first: a bundled script is optional (`## Optional script`, compatibility says so) |
 | HC101/102 | Warnings: catalog baseline age, remaining `verify:true` entries |
 
 ### Agentic (advisory, gh-aw)

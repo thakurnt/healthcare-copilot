@@ -128,7 +128,7 @@ Commit it to your default branch; it runs at the end of Copilot coding agent ses
 | You installed the earlier domain plugins (`healthcare-core`, `healthcare-imaging`, …) | Uninstall them (`copilot plugin uninstall healthcare-imaging@healthcare-copilot`, etc.), run `copilot plugin marketplace update healthcare-copilot`, then install `healthcare`. |
 | Plugin installs but agents don't show | Restart the Copilot CLI session / reload VS Code; check `copilot plugin list`. |
 | Answers assume the latest version | Add or fix `.github/healthcare-profile.yml`; mention the version in your prompt. |
-| Skill scripts fail | They need Python 3.8+ on `PATH` (standard library only). |
+| "python3: command not found" | Nothing to install: skills work with Copilot's built-in search and file tools. Bundled scripts are optional accelerators (Python 3.8+, standard library only) used when available. |
 | Corporate environment blocks plugins | Use Option 3 (copy into the repository). |
 
 ## For maintainers — publishing changes
