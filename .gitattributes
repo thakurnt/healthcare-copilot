@@ -4,3 +4,5 @@
 *.edi -text
 *.x12 -text
 *.dcm binary
+
+.github/workflows/*.lock.yml linguist-generated=true

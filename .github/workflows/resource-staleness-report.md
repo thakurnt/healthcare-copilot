@@ -2,7 +2,8 @@
 name: Resource Staleness Report
 description: Monthly report of agents, instructions and skills that have not been substantively updated since the standards they cover changed in the catalog, with a deeper review of the five most at-risk resources.
 on:
-  schedule: monthly
+  schedule:
+    - cron: "41 7 5 * *"   # 5th of each month, 07:41 UTC
   workflow_dispatch:
 permissions:
   contents: read

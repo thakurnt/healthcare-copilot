@@ -12,6 +12,9 @@ permissions:
   contents: read
   issues: read
   copilot-requests: write
+engine:
+  id: copilot
+  copilot-sdk: true   # native web-fetch requires SDK mode (proxy-aware fetch)
 imports:
   - shared/standards-sources.md
 tools:
@@ -19,6 +22,8 @@ tools:
     toolsets: [repos, issues]
   bash: ["cat", "ls", "grep", "head", "sed", "wc", "date", "find", "sort"]
 timeout-minutes: 40
+concurrency:
+  job-discriminator: ${{ github.run_id }}
 safe-outputs:
   create-issue:
     title-prefix: "[accuracy] "

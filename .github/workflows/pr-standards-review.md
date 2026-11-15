@@ -17,7 +17,11 @@ on:
 permissions:
   contents: read
   pull-requests: read
+  actions: read
   copilot-requests: write
+engine:
+  id: copilot
+  copilot-sdk: true   # native web-fetch requires SDK mode (proxy-aware fetch)
 imports:
   - shared/standards-sources.md
 tools:

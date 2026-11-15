@@ -29,6 +29,32 @@ jobs:
       - name: Unit tests (skill scripts, installer, tooling)
         run: python3 -m unittest discover -s tests -v
 
+  agentic-workflows:
+    # Fails if a gh-aw workflow (.md) was edited without re-running `gh aw compile`.
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install gh-aw
+        uses: github/gh-aw-actions/setup-cli@53d0749e19424a918acd82b4d140264ce48f2f14 # v1.2.2
+        with:
+          version: v1.2.2
+      - name: Lock files are up to date
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh aw compile
+          git diff --exit-code -- .github/workflows .github/aw || { echo "::error::Agentic workflow lock files are stale. Run 'gh aw compile' and commit the result."; exit 1; }
+      - name: Consumer workflows (workflows/*.md) compile
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tmp="$(mktemp -d)"; mkdir -p "$tmp/.github/workflows"
+          cp workflows/*.md "$tmp/.github/workflows/"
+          cd "$tmp" && git init -q && gh aw compile
+
   plugin-versions:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest

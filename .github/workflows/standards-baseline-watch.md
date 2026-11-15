@@ -2,12 +2,16 @@
 name: Standards Baseline Watch
 description: Monthly check of official publisher pages for new editions, releases, IG versions and regulatory milestones; opens one issue proposing standards/catalog.json updates and resolutions for verify:true entries, without changing any project's target versions.
 on:
-  schedule: monthly
+  schedule:
+    - cron: "17 6 3 * *"   # 3rd of each month, 06:17 UTC
   workflow_dispatch:
 permissions:
   contents: read
   issues: read
   copilot-requests: write
+engine:
+  id: copilot
+  copilot-sdk: true   # native web-fetch requires SDK mode (proxy-aware fetch)
 imports:
   - shared/standards-sources.md
 tools:
