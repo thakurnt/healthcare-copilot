@@ -1,0 +1,8 @@
+id: example.test.r5
+canonical: http://example.org/fhir/test-r5
+name: TestR5
+status: draft
+version: 0.1.0
+fhirVersion: 5.0.0
+dependencies:
+  hl7.fhir.uv.extensions.r5: 5.1.0

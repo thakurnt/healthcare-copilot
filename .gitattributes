@@ -1,0 +1,6 @@
+* text=auto eol=lf
+*.hl7 -text
+*.er7 -text
+*.edi -text
+*.x12 -text
+*.dcm binary

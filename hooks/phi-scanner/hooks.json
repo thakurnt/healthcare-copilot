@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionEnd": [
+      {
+        "type": "command",
+        "bash": ".github/hooks/phi-scanner/scan-phi.sh",
+        "cwd": ".",
+        "env": {
+          "SCAN_MODE": "warn",
+          "SYNTHETIC_MARKERS": "TEST,DEMO,SYNTH,ZZ,FAKE,SAMPLE"
+        },
+        "timeoutSec": 30
+      }
+    ]
+  }
+}

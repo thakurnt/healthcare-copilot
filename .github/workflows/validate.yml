@@ -1,0 +1,26 @@
+name: Validate
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate resources and generated docs
+        run: python3 .github/scripts/build.py --check
+      - name: Validate JSON
+        run: for f in standards/catalog.json .schemas/*.json plugins/*/plugin.json hooks/*/hooks.json; do python3 -m json.tool "$f" > /dev/null || exit 1; done
+      - name: Smoke-test skill scripts on synthetic examples
+        run: |
+          python3 skills/healthcare-version-detect/scripts/detect_versions.py examples
+          python3 skills/hl7v2-message-inspector/scripts/hl7v2_inspect.py examples/hl7v2/2.3.1/adt_a01.hl7 --target-version 2.5.1
+          python3 skills/x12-transaction-analyzer/scripts/x12_inspect.py examples/x12/005010X222A1/837p.edi
+          python3 skills/ccda-document-review/scripts/ccda_templates.py examples/ccda/2.1/ccd.xml
+          python3 scripts/install.py "$RUNNER_TEMP/proj" --tool both --plugin all

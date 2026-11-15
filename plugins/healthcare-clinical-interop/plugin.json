@@ -1,0 +1,38 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "healthcare-clinical-interop",
+  "description": "Clinical interoperability for HIS/EMR/EHR/LIS/HIE: HL7 v2 (2.1\u20132.9.1), FHIR (DSTU2\u2013R6) with per-IG versions, CDA/C-CDA and IHE ITI document sharing and patient identity.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Healthcare Copilot contributors"
+  },
+  "keywords": [
+    "hl7v2",
+    "fhir",
+    "cda",
+    "ccda",
+    "ihe-iti",
+    "hie",
+    "mpi",
+    "ehr"
+  ],
+  "extensions": {
+    "com.github.awesome-copilot": {
+      "agents": [
+        "./agents/hl7v2-integration-engineer.agent.md",
+        "./agents/fhir-engineer.agent.md",
+        "./agents/cda-ccda-engineer.agent.md",
+        "./agents/ihe-profile-advisor.agent.md",
+        "./agents/clinical-terminology-specialist.agent.md"
+      ],
+      "skills": [
+        "./skills/hl7v2-message-inspector",
+        "./skills/fhir-version-compatibility",
+        "./skills/ccda-document-review",
+        "./skills/ihe-profile-mapping",
+        "./skills/terminology-binding",
+        "./skills/healthcare-version-detect"
+      ]
+    }
+  }
+}

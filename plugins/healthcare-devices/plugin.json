@@ -1,0 +1,30 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "healthcare-devices",
+  "description": "Medical device interoperability: ISO/IEEE 11073 PHD/SDC, IHE PCD and device-to-EHR integration via HL7 v2 or FHIR.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Healthcare Copilot contributors"
+  },
+  "keywords": [
+    "ieee-11073",
+    "medical-devices",
+    "sdc",
+    "phd",
+    "ihe-pcd",
+    "iot"
+  ],
+  "extensions": {
+    "com.github.awesome-copilot": {
+      "agents": [
+        "./agents/medical-device-interop-engineer.agent.md",
+        "./agents/hl7v2-integration-engineer.agent.md",
+        "./agents/fhir-engineer.agent.md"
+      ],
+      "skills": [
+        "./skills/terminology-binding",
+        "./skills/healthcare-version-detect"
+      ]
+    }
+  }
+}

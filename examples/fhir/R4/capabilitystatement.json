@@ -1,0 +1,9 @@
+{
+  "resourceType": "CapabilityStatement",
+  "status": "active",
+  "date": "2026-11-15",
+  "kind": "instance",
+  "fhirVersion": "4.0.1",
+  "format": ["json"],
+  "rest": [{ "mode": "server", "resource": [{ "type": "Patient", "supportedProfile": ["http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|6.1.0"] }] }]
+}

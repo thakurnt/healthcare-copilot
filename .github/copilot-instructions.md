@@ -1,0 +1,1 @@
+This repository authors healthcare Copilot resources. Follow AGENTS.md. Key rules: every agent/skill must resolve the target standard version (never assume latest); keep version facts in references tables; synthetic data only; run `python3 .github/scripts/build.py` after adding resources.

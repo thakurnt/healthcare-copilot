@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/healthcare-copilot/healthcare-copilot/.schemas/healthcare-profile.schema.json",
+  "title": "Healthcare Copilot project profile",
+  "description": "Declares the healthcare standard versions a project targets. Read by every agent, instruction and skill before giving version-dependent guidance.",
+  "type": "object",
+  "required": ["profile_version"],
+  "properties": {
+    "profile_version": { "const": 1 },
+    "context": {
+      "type": "object",
+      "properties": {
+        "product": { "type": "string" },
+        "business_domains": {
+          "type": "array",
+          "items": { "enum": ["medical-imaging", "hospital-systems", "clinical-interoperability", "enterprise-interoperability", "healthcare-administration", "insurance", "medical-devices", "healthcare-platforms"] }
+        },
+        "jurisdiction": { "type": "string" },
+        "as_of_date": { "type": "string", "format": "date" },
+        "phi_in_repo": { "type": "boolean" }
+      }
+    },
+    "standards": {
+      "type": "object",
+      "properties": {
+        "dicom": { "type": "object", "properties": { "edition": { "type": "string", "pattern": "^[0-9]{4}[a-e]$" } } },
+        "dicomweb": { "type": "object", "properties": { "edition": { "type": "string" } } },
+        "hl7v2": {
+          "type": "object",
+          "properties": {
+            "default_version": { "$ref": "#/$defs/hl7v2Version" },
+            "interfaces": {
+              "type": "array",
+              "items": { "type": "object", "required": ["name", "version"], "properties": { "version": { "$ref": "#/$defs/hl7v2Version" } } }
+            }
+          }
+        },
+        "fhir": {
+          "type": "object",
+          "properties": {
+            "core": { "enum": ["DSTU2", "STU3", "R4", "R4B", "R5", "R6-ballot"] },
+            "release": { "type": "string" },
+            "implementation_guides": {
+              "type": "array",
+              "items": { "type": "object", "required": ["id", "version"], "properties": { "id": { "type": "string" }, "version": { "type": "string" } } }
+            }
+          }
+        },
+        "x12": { "type": "object", "properties": { "release": { "type": "string", "pattern": "^00[0-9]{4}$" } } }
+      },
+      "additionalProperties": { "type": "object" }
+    },
+    "security_privacy": { "type": "object" }
+  },
+  "$defs": {
+    "hl7v2Version": { "type": "string", "pattern": "^2\\.[0-9](\\.[0-9])?$" }
+  }
+}

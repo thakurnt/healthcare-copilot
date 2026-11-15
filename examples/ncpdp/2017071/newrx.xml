@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Synthetic header-only SCRIPT skeleton for version detection tests. -->
+<Message DatatypesVersion="2017071" TransportVersion="2017071" TransactionDomain="SCRIPT" TransactionVersion="2017071" StructuresVersion="2017071" ECLVersion="2017071">
+  <Header><To Qualifier="P">TESTPHARM</To><From Qualifier="C">TESTPRESCRIBER</From><MessageID>TEST1</MessageID></Header>
+  <Body><NewRx/></Body>
+</Message>

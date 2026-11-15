@@ -1,0 +1,239 @@
+{
+  "$schema": "../.schemas/standards-catalog.schema.json",
+  "catalogVersion": "1.0.0",
+  "researchBaseline": "2026-11-15",
+  "notice": "Publication baselines only. The newest publication is NOT a default target. Agents must resolve the target version per project (see docs/version-strategy.md). Entries marked verify:true must be re-checked against the publisher before being cited as authoritative.",
+  "standards": [
+    {
+      "id": "dicom",
+      "name": "DICOM",
+      "domain": "medical-imaging",
+      "kind": "technical-interoperability",
+      "publisher": "NEMA / MITA (DICOM Standards Committee)",
+      "versioning": "Edition per year with letter suffix (YYYYa..YYYYe). Editions are cumulative; Final Text supplements and CPs land in a specific edition. Products declare support via a Conformance Statement (PS3.2), not an edition number.",
+      "versionPattern": "^[0-9]{4}[a-e]$",
+      "latestPublished": "2026d",
+      "knownVersions": ["2019a", "2020a", "2021a", "2022a", "2023a", "2023e", "2024a", "2024b", "2024c", "2024d", "2024e", "2025a", "2025b", "2025c", "2025d", "2025e", "2026a", "2026b", "2026c", "2026d"],
+      "retiredFeatures": [
+        { "feature": "Explicit VR Big Endian transfer syntax (1.2.840.10008.1.2.2)", "status": "retired", "note": "Still encountered in legacy archives; accept on read only if the conformance statement requires it." }
+      ],
+      "versionDetection": ["Conformance Statement edition reference", "(0002,0010) Transfer Syntax UID", "(0002,0013) Implementation Version Name", "(0008,0016) SOP Class UID against the PS3.4/PS3.6 registry of the target edition"],
+      "sources": ["https://www.dicomstandard.org/current", "https://www.dicomstandard.org/history"]
+    },
+    {
+      "id": "dicomweb",
+      "name": "DICOMweb (PS3.18)",
+      "domain": "medical-imaging",
+      "kind": "technical-interoperability",
+      "publisher": "NEMA / MITA",
+      "versioning": "Published as DICOM Part 18 inside each DICOM edition.",
+      "latestPublished": "2026 series (PS3.18)",
+      "knownVersions": ["follows DICOM edition"],
+      "versionDetection": ["Server capabilities / conformance statement", "Supported media types (application/dicom+json, multipart/related)", "Presence of UPS-RS, rendered, thumbnail endpoints"],
+      "sources": ["https://www.dicomstandard.org/using/dicomweb"]
+    },
+    {
+      "id": "dicom-security",
+      "name": "DICOM Security and System Management (PS3.15)",
+      "domain": "medical-imaging",
+      "kind": "technical-security",
+      "publisher": "NEMA / MITA",
+      "versioning": "Published as DICOM Part 15 inside each DICOM edition (TLS secure transport profiles, audit trail, de-identification profiles in Annex E).",
+      "latestPublished": "2026 series (PS3.15)",
+      "knownVersions": ["follows DICOM edition"],
+      "versionDetection": ["Conformance statement security section", "Declared Basic Application Level Confidentiality Profile options"],
+      "sources": ["https://www.dicomstandard.org/current"]
+    },
+    {
+      "id": "hl7v2",
+      "name": "HL7 Version 2.x",
+      "domain": "clinical-interoperability",
+      "kind": "technical-interoperability",
+      "publisher": "HL7 International",
+      "versioning": "Point releases (2.1 .. 2.9.1). Mostly backward compatible by design (new fields appended, elements deprecated/withdrawn over time). Real interfaces are governed by site-specific implementation specs and Z-segments more than by the base version.",
+      "versionPattern": "^2\\.[0-9](\\.[0-9])?$",
+      "latestPublished": "2.9.1",
+      "knownVersions": ["2.1", "2.2", "2.3", "2.3.1", "2.4", "2.5", "2.5.1", "2.6", "2.7", "2.7.1", "2.8", "2.8.1", "2.8.2", "2.9", "2.9.1"],
+      "commonInProduction": ["2.3", "2.3.1", "2.4", "2.5.1"],
+      "versionDetection": ["MSH-12 Version ID", "MSH-21 Message Profile Identifier", "Interface engine channel configuration", "Trading partner implementation guide"],
+      "sources": ["https://www.hl7.org/implement/standards/product_brief.cfm?product_id=185"]
+    },
+    {
+      "id": "hl7v3",
+      "name": "HL7 Version 3 (RIM-based messaging)",
+      "domain": "clinical-interoperability",
+      "kind": "technical-interoperability",
+      "publisher": "HL7 International",
+      "versioning": "Normative Edition releases; domain-specific interaction/message model publications. Mostly legacy outside specific national programmes; CDA R2 is the most widely deployed V3-derived artifact.",
+      "latestPublished": "Normative Edition (domain-specific)",
+      "knownVersions": ["Normative Edition 2005..current"],
+      "versionDetection": ["Interaction ID (e.g. PRPA_IN201301UV02)", "ITS version attribute", "Data types release (R1 vs R2)"],
+      "sources": ["https://www.hl7.org/implement/standards/product_brief.cfm?product_id=186"],
+      "verify": true
+    },
+    {
+      "id": "fhir",
+      "name": "HL7 FHIR",
+      "domain": "clinical-interoperability",
+      "kind": "technical-interoperability",
+      "publisher": "HL7 International",
+      "versioning": "Major releases are NOT wire-compatible (DSTU2, STU3, R4, R4B, R5, R6). Implementation Guides pin their own FHIR version independently of the latest core release. Always resolve core version AND each IG version.",
+      "latestPublished": "R5 (5.0.0)",
+      "inDevelopment": "R6 (ballot/development track; not interchangeable with R5)",
+      "knownVersions": [
+        { "label": "DSTU2", "version": "1.0.2" },
+        { "label": "STU3", "version": "3.0.2" },
+        { "label": "R4", "version": "4.0.1" },
+        { "label": "R4B", "version": "4.3.0" },
+        { "label": "R5", "version": "5.0.0" },
+        { "label": "R6", "version": "ballot", "status": "development" }
+      ],
+      "implementationGuides": [
+        { "id": "hl7.fhir.us.core", "name": "US Core", "version": "9.0.0", "fhirVersion": "R4", "note": "Regulatory programmes may reference an older US Core version; resolve per programme." },
+        { "id": "ihe.iti.mhd", "name": "IHE MHD", "version": "4.2.5", "fhirVersion": "R4" },
+        { "id": "hl7.fhir.uv.subscriptions-backport", "name": "Subscriptions R5 Backport", "fhirVersion": "R4/R4B", "note": "Use for topic-based subscriptions on R4/R4B servers.", "verify": true }
+      ],
+      "versionDetection": ["CapabilityStatement.fhirVersion (GET [base]/metadata)", "package.json fhirVersions / dependencies", "sushi-config.yaml fhirVersion", "ImplementationGuide.fhirVersion", "meta.profile canonical URLs and |version suffix", "Accept/Content-Type fhirVersion MIME parameter"],
+      "sources": ["https://hl7.org/fhir/directory.html", "https://hl7.org/fhir/R4/", "https://hl7.org/fhir/R5/"]
+    },
+    {
+      "id": "cda",
+      "name": "HL7 CDA",
+      "domain": "clinical-interoperability",
+      "kind": "document-standard",
+      "publisher": "HL7 International",
+      "versioning": "CDA R2.0 is the deployed base; CDA R2.1 exists but is rarely used.",
+      "latestPublished": "CDA R2.0 (deployed baseline)",
+      "knownVersions": ["R2.0", "R2.1"],
+      "versionDetection": ["ClinicalDocument/typeId", "Schema used for validation (CDA.xsd + SDTC extensions)"],
+      "sources": ["https://www.hl7.org/implement/standards/product_brief.cfm?product_id=7"]
+    },
+    {
+      "id": "ccda",
+      "name": "C-CDA (Consolidated CDA)",
+      "domain": "clinical-interoperability",
+      "kind": "implementation-guide",
+      "publisher": "HL7 International",
+      "versioning": "Template versions are identified by templateId @root + @extension (a date). A document may mix template versions; validate each templateId against the release that defines it.",
+      "latestPublished": "5.0.0",
+      "knownVersions": ["R1.1", "R2.1", "3.0", "4.0", "5.0.0"],
+      "versionDetection": ["templateId @root/@extension pairs on ClinicalDocument, sections and entries", "US Realm Header templateId extension"],
+      "sources": ["https://hl7.org/cda/us/ccda/"],
+      "verify": true
+    },
+    {
+      "id": "ihe-iti",
+      "name": "IHE IT Infrastructure (ITI) Technical Framework",
+      "domain": "enterprise-interoperability",
+      "kind": "integration-profile",
+      "publisher": "IHE International",
+      "versioning": "Technical Framework revision numbers plus separately published Trial Implementation supplements. Profiles have actor/transaction options; FHIR-based profiles (MHD, PIXm, PDQm, mXDE) pin a FHIR version.",
+      "latestPublished": "Revision 20.2 Final Text (November 2025)",
+      "profiles": ["XDS.b", "XCA", "PIX", "PDQ", "PIXv3", "PDQv3", "PIXm", "PDQm", "ATNA", "CT", "XUA", "MHD", "MHDS", "BPPC", "XDM", "XDR"],
+      "versionDetection": ["Integration Statement", "Transaction numbers in use (e.g. ITI-41, ITI-43)", "FHIR version of mobile profiles"],
+      "sources": ["https://profiles.ihe.net/ITI/"]
+    },
+    {
+      "id": "ihe-rad",
+      "name": "IHE Radiology (RAD) Technical Framework",
+      "domain": "enterprise-interoperability",
+      "kind": "integration-profile",
+      "publisher": "IHE International",
+      "versioning": "Technical Framework revision numbers plus Trial Implementation supplements. SWF is superseded by SWF.b.",
+      "latestPublished": "Revision 23.0 (August 2025)",
+      "profiles": ["SWF", "SWF.b", "PIR", "RWF", "XDS-I.b", "WIA", "WIC", "IOCM", "REM", "CPI", "KIN"],
+      "versionDetection": ["Integration Statement", "Use of HL7 v2.5.1 OMI vs v2.3.1 ORM (SWF vs SWF.b)"],
+      "sources": ["https://www.ihe.net/resources/technical_frameworks/#radiology"]
+    },
+    {
+      "id": "hipaa",
+      "name": "HIPAA Administrative Simplification (US)",
+      "domain": "healthcare-administration",
+      "kind": "legal-regulatory",
+      "publisher": "U.S. HHS (OCR, CMS)",
+      "versioning": "Regulation text as amended (45 CFR Parts 160, 162, 164). Not a technical spec: it mandates outcomes and, for transactions, adopts specific standard versions (Part 162).",
+      "latestPublished": "Current applicable regulations (check eCFR for amendments and pending rules)",
+      "adoptedTransactionStandards": [
+        { "standard": "ASC X12", "version": "005010", "note": "Adopted version for HIPAA transactions; newer X12 publications are NOT automatically mandated." },
+        { "standard": "NCPDP Telecommunication", "version": "D.0", "note": "Retail pharmacy transactions; verify any newly adopted version and compliance date.", "verify": true }
+      ],
+      "versionDetection": ["Jurisdiction and covered-entity / business-associate status", "Compliance date of any rule in force on the target date"],
+      "sources": ["https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-C", "https://www.cms.gov/priorities/key-initiatives/burden-reduction/administrative-simplification/hipaa/adopted-standards-operating-rules"]
+    },
+    {
+      "id": "x12",
+      "name": "ASC X12 (Healthcare EDI)",
+      "domain": "healthcare-administration",
+      "kind": "technical-interoperability",
+      "publisher": "ASC X12",
+      "versioning": "Release numbers (004010, 005010, ... 008070). Healthcare usage is governed by TR3 implementation guides whose IDs embed version and errata (e.g. 005010X222A1).",
+      "latestPublished": "008070 (March 2026)",
+      "regulatoryDefault": "005010 (HIPAA-adopted)",
+      "knownVersions": ["004010", "005010", "006020", "007030", "008010", "008030", "008050", "008070"],
+      "hipaa5010Tr3s": [
+        { "transaction": "837P", "tr3": "005010X222A1" },
+        { "transaction": "837I", "tr3": "005010X223A2" },
+        { "transaction": "837D", "tr3": "005010X224A2" },
+        { "transaction": "835", "tr3": "005010X221A1" },
+        { "transaction": "270/271", "tr3": "005010X279A1" },
+        { "transaction": "276/277", "tr3": "005010X212" },
+        { "transaction": "278", "tr3": "005010X217" },
+        { "transaction": "834", "tr3": "005010X220A1" },
+        { "transaction": "820", "tr3": "005010X218" }
+      ],
+      "versionDetection": ["ISA12 Interchange Control Version (e.g. 00501)", "GS08 Version/Release/Industry Identifier (e.g. 005010X222A1)", "ST03 Implementation Convention Reference"],
+      "sources": ["https://x12.org/products/releases", "https://www.cms.gov/priorities/key-initiatives/burden-reduction/administrative-simplification/hipaa/adopted-standards-operating-rules"]
+    },
+    {
+      "id": "ncpdp",
+      "name": "NCPDP (SCRIPT, Telecommunication, RTPB, Formulary & Benefit)",
+      "domain": "healthcare-administration",
+      "kind": "technical-interoperability",
+      "publisher": "NCPDP",
+      "versioning": "Each NCPDP standard is versioned independently. Regulatory use is set by CMS rule with specific compliance dates; multiple versions may be legitimately in production during transitions.",
+      "latestPublished": "SCRIPT 2023011",
+      "knownVersions": ["SCRIPT 10.6", "SCRIPT 2017071", "SCRIPT 2023011", "Telecommunication D.0", "Formulary & Benefit 3.0", "Formulary & Benefit 60", "RTPB 13"],
+      "milestones": [
+        { "date": "2027-01-01", "item": "RTPB v13 and Formulary & Benefit v60 for applicable regulated use cases" },
+        { "date": "2028-01-01", "item": "SCRIPT 2023011 for applicable Part D use cases (SCRIPT 2017071 applies before that date)" }
+      ],
+      "versionDetection": ["SCRIPT XML Message @version / TransportVersion / ECLVersion header attributes", "Trading partner (e.g. network) certification"],
+      "sources": ["https://www.ncpdp.org/Standards-Development/Standards-Information", "https://www.cms.gov/medicare/regulations-guidance/electronic-prescribing"],
+      "verify": true
+    },
+    {
+      "id": "ieee11073",
+      "name": "ISO/IEEE 11073 family",
+      "domain": "medical-device-interoperability",
+      "kind": "technical-interoperability",
+      "publisher": "IEEE / ISO",
+      "versioning": "Family of independently versioned standards: PHD (-20601 optimized exchange, -104xx device specializations), SDC (-10207, -20701, -20702), nomenclature (-10101). Device specializations reference a specific -20601 version.",
+      "latestPublished": "11073-20601-2026 (published 2026-11-13)",
+      "knownVersions": ["11073-20601-2008", "11073-20601-2010 (+Cor)", "11073-20601-2019", "11073-20601-2026", "11073-10101 (nomenclature)", "11073-10207 (SDC BICEPS)", "11073-20701 (SDC architecture)"],
+      "versionDetection": ["Association request protocol version bits", "Device specialization list in config", "SDC MDIB version"],
+      "sources": ["https://standards.ieee.org/"],
+      "verify": true
+    },
+    {
+      "id": "terminology",
+      "name": "Clinical terminologies (SNOMED CT, LOINC, RxNorm, ICD, UCUM, DICOM CID)",
+      "domain": "cross-cutting-terminology",
+      "kind": "terminology",
+      "publisher": "SNOMED International, Regenstrief, NLM, WHO/CDC/CMS, UCUM, NEMA",
+      "versioning": "Each code system has its own release cadence and edition (e.g. SNOMED CT International vs national editions, ICD-10-CM fiscal year effective 1 October, RxNorm monthly, LOINC semi-annual). Code validity depends on the release in force at the date of service.",
+      "latestPublished": "Varies by code system; always resolve edition + release date",
+      "codeSystems": [
+        { "id": "snomed-ct", "uri": "http://snomed.info/sct", "versionFormat": "http://snomed.info/sct/{module}/version/{YYYYMMDD}" },
+        { "id": "loinc", "uri": "http://loinc.org", "versionFormat": "2.xx" },
+        { "id": "rxnorm", "uri": "http://www.nlm.nih.gov/research/umls/rxnorm", "versionFormat": "monthly release date" },
+        { "id": "icd-10-cm", "uri": "http://hl7.org/fhir/sid/icd-10-cm", "versionFormat": "fiscal year (effective Oct 1)" },
+        { "id": "icd-11", "uri": "http://id.who.int/icd/release/11/mms", "versionFormat": "YYYY-MM" },
+        { "id": "ucum", "uri": "http://unitsofmeasure.org", "versionFormat": "2.x" },
+        { "id": "dicom-dcm", "uri": "http://dicom.nema.org/resources/ontology/DCM", "versionFormat": "follows DICOM edition (PS3.16)" }
+      ],
+      "licensingNote": "SNOMED CT requires an affiliate licence outside member territories; LOINC and RxNorm have their own terms; CPT is AMA-licensed. Never embed licensed content in this repository.",
+      "versionDetection": ["Coding.version / CodeSystem.version", "HL7 v2 CWE-7/CWE-8 coding system version ID", "Date of service vs code effective dates"],
+      "sources": ["https://www.snomed.org/", "https://loinc.org/", "https://www.nlm.nih.gov/research/umls/rxnorm/", "https://ucum.org/"]
+    }
+  ]
+}

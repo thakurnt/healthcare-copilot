@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Healthcare Copilot standards catalog",
+  "type": "object",
+  "required": ["catalogVersion", "researchBaseline", "standards"],
+  "properties": {
+    "catalogVersion": { "type": "string" },
+    "researchBaseline": { "type": "string", "format": "date" },
+    "standards": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "domain", "kind", "publisher", "versioning", "latestPublished", "versionDetection", "sources"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+          "domain": { "enum": ["medical-imaging", "clinical-interoperability", "enterprise-interoperability", "healthcare-administration", "medical-device-interoperability", "cross-cutting-terminology"] },
+          "kind": { "enum": ["technical-interoperability", "technical-security", "document-standard", "implementation-guide", "integration-profile", "legal-regulatory", "terminology"] },
+          "verify": { "type": "boolean" }
+        }
+      }
+    }
+  }
+}
