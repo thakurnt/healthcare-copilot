@@ -25,17 +25,28 @@ Every resource here:
 
 ## Quick start
 
-```bash
-git clone https://github.com/<owner>/healthcare-copilot.git
-cd healthcare-copilot
+### Install as a GitHub Copilot plugin
 
-# Install for GitHub Copilot, Claude Code, or both
-python3 scripts/install.py ../your-project --tool copilot --plugin healthcare-imaging
-python3 scripts/install.py ../your-project --tool claude  --plugin healthcare-clinical-interop
-python3 scripts/install.py ../your-project --tool both    --plugin all --dry-run
+```bash
+copilot plugin marketplace add thakurnt/healthcare-copilot
+copilot plugin install healthcare-core@healthcare-copilot
+copilot plugin install healthcare-imaging@healthcare-copilot   # or: healthcare-clinical-interop, healthcare-revenue-cycle, healthcare-devices
 ```
 
-Then declare your versions in `your-project/.github/healthcare-profile.yml` ([template](templates/healthcare-profile.yml)) — or ask an agent: *"Detect which healthcare standard versions this repo uses."*
+VS Code: add `"chat.plugins.marketplaces": ["thakurnt/healthcare-copilot"]` to settings, then run **Chat: Plugins**.
+Full guide (VS Code, updates, instructions & hooks, troubleshooting): **[docs/installing-plugins.md](docs/installing-plugins.md)**
+
+### Or copy into your repository (Copilot coding agent, Claude Code)
+
+```bash
+git clone https://github.com/thakurnt/healthcare-copilot.git
+python3 healthcare-copilot/scripts/install.py ../your-project --tool copilot --plugin healthcare-imaging
+python3 healthcare-copilot/scripts/install.py ../your-project --tool claude  --plugin healthcare-clinical-interop
+```
+
+### Then declare your versions
+
+Create `your-project/.github/healthcare-profile.yml` ([template](templates/healthcare-profile.yml)) — or ask an agent: *"Detect which healthcare standard versions this repo uses."*
 
 More: [docs/getting-started.md](docs/getting-started.md)
 
@@ -100,6 +111,7 @@ Publication baselines — **not** default targets. Maintained in [standards/cata
 ```
 agents/        instructions/   skills/      hooks/      workflows/   plugins/
 standards/     templates/      examples/    docs/       scripts/     .schemas/
+dist/plugins/  (generated, installable)     .github/plugin/marketplace.json (generated)
 ```
 
 See [AGENTS.md](AGENTS.md) for authoring rules. Validate with:

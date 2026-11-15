@@ -1,9 +1,18 @@
 # Getting started
 
-## 1. Install into your project
+## 1. Install
+
+**As a Copilot plugin** (recommended): see [installing-plugins.md](installing-plugins.md).
 
 ```bash
-git clone https://github.com/<owner>/healthcare-copilot.git
+copilot plugin marketplace add thakurnt/healthcare-copilot
+copilot plugin install healthcare-core@healthcare-copilot
+```
+
+**Or copy into your project:**
+
+```bash
+git clone https://github.com/thakurnt/healthcare-copilot.git
 cd healthcare-copilot
 
 # GitHub Copilot (VS Code / Copilot CLI / coding agent)

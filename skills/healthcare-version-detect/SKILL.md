@@ -32,7 +32,7 @@ Establishes the **target versions** that every other agent and skill must honour
    | `x12.ISA12`, `x12.GS08` | X12 release and TR3 (e.g. `005010X222A1`) |
    | `ncpdp.script_version` | SCRIPT version in sample messages |
 4. Ask the user only about gaps that change the work (e.g. "No DICOM edition found — which edition is your conformance statement written against?").
-5. Draft `.github/healthcare-profile.yml` from `templates/healthcare-profile.yml` in the healthcare-copilot repo, filling detected values and leaving `# TODO confirm` comments on anything inferred. Show the diff to the user before writing.
+5. Draft `.github/healthcare-profile.yml` from [assets/healthcare-profile.yml](assets/healthcare-profile.yml), filling detected values and leaving `# TODO confirm` comments on anything inferred. Show the diff to the user before writing.
 
 ## Notes
 - The scanner skips `node_modules`, `.git`, build folders and files > 2 MB.

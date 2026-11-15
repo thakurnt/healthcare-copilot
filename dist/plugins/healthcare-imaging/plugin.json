@@ -1,0 +1,20 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "healthcare-imaging",
+  "description": "Medical imaging toolkit for PACS, RIS, VNA, modalities, gateways and viewers: DICOM, DICOMweb, PS3.15 security and IHE Radiology, targeted at your declared DICOM edition.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Healthcare Copilot contributors"
+  },
+  "keywords": [
+    "dicom",
+    "dicomweb",
+    "pacs",
+    "ris",
+    "vna",
+    "ihe-radiology",
+    "imaging"
+  ],
+  "repository": "https://github.com/thakurnt/healthcare-copilot",
+  "license": "MIT"
+}

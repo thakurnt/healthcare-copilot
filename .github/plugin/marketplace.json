@@ -1,0 +1,43 @@
+{
+  "name": "healthcare-copilot",
+  "metadata": {
+    "description": "Version-aware healthcare interoperability plugins (DICOM, HL7 v2, FHIR, C-CDA, IHE, X12, NCPDP, IEEE 11073)",
+    "version": "1.0.0"
+  },
+  "owner": {
+    "name": "Healthcare Copilot contributors",
+    "url": "https://github.com/thakurnt/healthcare-copilot"
+  },
+  "plugins": [
+    {
+      "name": "healthcare-clinical-interop",
+      "source": "dist/plugins/healthcare-clinical-interop",
+      "description": "Clinical interoperability for HIS/EMR/EHR/LIS/HIE: HL7 v2 (2.1\u20132.9.1), FHIR (DSTU2\u2013R6) with per-IG versions, CDA/C-CDA and IHE ITI document sharing and patient identity.",
+      "version": "1.0.0"
+    },
+    {
+      "name": "healthcare-core",
+      "source": "dist/plugins/healthcare-core",
+      "description": "Foundation for all healthcare work: version resolution, interoperability architecture, security/privacy review, terminology and conformance testing.",
+      "version": "1.0.0"
+    },
+    {
+      "name": "healthcare-devices",
+      "source": "dist/plugins/healthcare-devices",
+      "description": "Medical device interoperability: ISO/IEEE 11073 PHD/SDC, IHE PCD and device-to-EHR integration via HL7 v2 or FHIR.",
+      "version": "1.0.0"
+    },
+    {
+      "name": "healthcare-imaging",
+      "source": "dist/plugins/healthcare-imaging",
+      "description": "Medical imaging toolkit for PACS, RIS, VNA, modalities, gateways and viewers: DICOM, DICOMweb, PS3.15 security and IHE Radiology, targeted at your declared DICOM edition.",
+      "version": "1.0.0"
+    },
+    {
+      "name": "healthcare-revenue-cycle",
+      "source": "dist/plugins/healthcare-revenue-cycle",
+      "description": "Healthcare administration and insurance: ASC X12 claims/eligibility/remittance/prior auth (HIPAA 005010 by default) and NCPDP SCRIPT/Telecom/RTPB aligned to regulatory dates.",
+      "version": "1.0.0"
+    }
+  ]
+}

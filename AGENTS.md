@@ -21,6 +21,7 @@ Its defining rule: **every resource is version-aware**. Nothing assumes the newe
 ├── examples/      # Synthetic sample artifacts across old and new versions
 ├── docs/          # Strategy docs + generated README.*.md indexes
 ├── scripts/       # install.py (Copilot / Claude Code installer)
+├── dist/plugins/  # GENERATED installable plugins (do not edit)
 ├── .schemas/      # JSON Schemas (profile, catalog)
 └── .github/scripts/build.py  # validate + generate docs
 ```
@@ -28,7 +29,7 @@ Its defining rule: **every resource is version-aware**. Nothing assumes the newe
 ## Setup commands
 
 ```bash
-python3 .github/scripts/build.py          # validate + regenerate docs/README.*.md
+python3 .github/scripts/build.py          # validate + regenerate docs, dist/plugins and .github/plugin/marketplace.json
 python3 .github/scripts/build.py --check  # CI mode
 python3 skills/healthcare-version-detect/scripts/detect_versions.py examples
 ```

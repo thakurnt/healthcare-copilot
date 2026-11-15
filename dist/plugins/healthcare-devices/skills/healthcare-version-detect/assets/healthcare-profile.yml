@@ -1,0 +1,98 @@
+# Healthcare Copilot project profile
+# ---------------------------------------------------------------
+# Copy to `.github/healthcare-profile.yml` (or `healthcare-profile.yml` at repo root)
+# in the project that USES the agents/skills. Every agent, instruction and skill
+# reads this file first to decide which standard versions to target.
+#
+# Rules:
+#   - Declare what you actually implement / exchange, NOT what is newest.
+#   - Use one entry per trading partner / interface when versions differ.
+#   - Anything not declared here is resolved from artifacts (MSH-12, fhirVersion,
+#     GS08 ...) and, failing that, the agent will ASK before assuming.
+#   - Delete sections you do not use.
+# ---------------------------------------------------------------
+profile_version: 1
+
+context:
+  product: "Example PACS / RIS integration"
+  business_domains: [medical-imaging, clinical-interoperability]   # see docs/standards-landscape.md
+  jurisdiction: US            # drives HIPAA/CMS rules; use e.g. EU, UK, IN, AU for others
+  as_of_date: 2026-11-15      # regulatory "in force" evaluation date; omit to use today
+  phi_in_repo: false          # true only if this repo legitimately holds PHI (it should not)
+
+standards:
+  dicom:
+    edition: "2024e"                       # edition your conformance statement is written against
+    conformance_statement: docs/dicom-conformance-statement.pdf
+    roles: [storage-scp, query-retrieve-scp, mwl-scu]
+    transfer_syntaxes:
+      - 1.2.840.10008.1.2.1                # Explicit VR Little Endian
+      - 1.2.840.10008.1.2.4.90             # JPEG 2000 Lossless
+    character_sets: ["ISO_IR 100", "ISO_IR 192"]
+
+  dicomweb:
+    edition: "2024e"
+    services: [QIDO-RS, WADO-RS, STOW-RS]
+
+  hl7v2:
+    default_version: "2.5.1"
+    interfaces:                            # per-partner overrides are common in real sites
+      - name: ADT feed from HIS
+        version: "2.3.1"
+        direction: inbound
+        messages: [ADT^A01, ADT^A04, ADT^A08, ADT^A40]
+        z_segments: [ZPI]
+      - name: Orders to modality worklist broker
+        version: "2.5.1"
+        direction: outbound
+        messages: [OMI^O23]
+    transport: mllp                        # mllp | file | http | mq
+
+  fhir:
+    core: R4                               # DSTU2 | STU3 | R4 | R4B | R5 | R6-ballot
+    release: "4.0.1"
+    implementation_guides:
+      - id: hl7.fhir.us.core
+        version: "6.1.0"                   # pin the version your programme actually requires
+      - id: ihe.iti.mhd
+        version: "4.2.5"
+    server: hapi-fhir                      # informational
+
+  cda:
+    ccda_release: "2.1"                    # R1.1 | 2.1 | 3.0 | 4.0 | 5.0.0
+    document_types: [CCD, DischargeSummary]
+
+  ihe:
+    iti_revision: "20.2"
+    rad_revision: "23.0"
+    profiles:
+      - { profile: SWF.b, actors: [Order Filler, Image Manager] }
+      - { profile: ATNA,  actors: [Secure Node] }
+      - { profile: XDS-I.b, actors: [Imaging Document Source] }
+
+  x12:
+    release: "005010"                      # HIPAA-adopted; do not change unless mandated
+    transactions:
+      - { set: "837P", tr3: "005010X222A1" }
+      - { set: "835",  tr3: "005010X221A1" }
+
+  ncpdp:
+    script: "2017071"
+    telecom: "D.0"
+
+  ieee11073:
+    family: phd                            # phd | sdc
+    base: "11073-20601-2019"
+    specializations: ["11073-10407"]       # e.g. blood pressure
+
+  terminology:
+    snomed_ct: { edition: "International", version: "20260101" }
+    loinc: "2.80"
+    icd_10_cm: "FY2026"
+    rxnorm: "2026-11-03"
+    ucum: "2.2"
+
+security_privacy:
+  frameworks: [HIPAA]                      # HIPAA | GDPR | UK-GDPR | DPDP | ...
+  dicom_deidentification_profile: "PS3.15 Annex E Basic + Retain Longitudinal Temporal Information Modified Dates Option"
+  audit: IHE-ATNA
