@@ -148,6 +148,20 @@ def collect() -> dict[str, str]:
         rows.append([f"[{name}](../{rel(d)}/plugin.json)", meta.get("description", ""), counts])
     docs["plugins"] = table(["Plugin", "Description", "Contents"], rows)
 
+    packaged: set[str] = set()
+    for d in dirs("plugins"):
+        try:
+            comp = json.load(open(os.path.join(d, "plugin.json"))).get("extensions", {}).get("com.github.awesome-copilot", {})
+        except Exception:  # noqa: BLE001 - reported above
+            continue
+        packaged.update(os.path.normpath(r) for k in ("agents", "skills") for r in comp.get(k, []))
+    for p in files("agents", ".agent.md"):
+        if os.path.normpath(rel(p)) not in packaged:
+            errors.append(f"{rel(p)}: not included in any plugin (add it to plugins/healthcare/plugin.json)")
+    for d in dirs("skills"):
+        if os.path.normpath(rel(d)) not in packaged:
+            errors.append(f"{rel(d)}: not included in any plugin (add it to plugins/healthcare/plugin.json)")
+
     cat = json.load(open(os.path.join(ROOT, "standards", "catalog.json")))
     rows = []
     required = ("id", "name", "domain", "kind", "publisher", "versioning", "latestPublished", "versionDetection", "sources")
@@ -166,7 +180,7 @@ TITLES = {
     "skills": ("Skills", "Agent Skills folders (`SKILL.md` + bundled scripts/references), following the Agent Skills specification."),
     "hooks": ("Hooks", "Session hooks (`README.md` + `hooks.json`)."),
     "workflows": ("Workflows", "GitHub Agentic Workflows (`.md`)."),
-    "plugins": ("Plugins", "Installable bundles grouping agents, skills and hooks by healthcare business domain."),
+    "plugins": ("Plugins", "The installable plugin: one `healthcare` plugin containing every agent and skill."),
     "standards": ("Standards catalog", f"Generated from `standards/catalog.json`. Research baseline shown is a publication baseline only — see [version-strategy.md](version-strategy.md)."),
 }
 
@@ -252,6 +266,10 @@ def sync_generated(check: bool) -> list[str]:
         else:
             os.remove(os.path.join(ROOT, extra))
             print(f"removed {extra}")
+    if not check and os.path.isdir(dist):
+        for r, ds, fs in os.walk(dist, topdown=False):
+            if not os.listdir(r):
+                os.rmdir(r)
     for path, data in sorted(want.items()):
         full = os.path.join(ROOT, path)
         current = open(full, "rb").read() if os.path.exists(full) else None

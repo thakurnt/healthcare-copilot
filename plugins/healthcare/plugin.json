@@ -1,0 +1,64 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "healthcare",
+  "description": "Version-aware healthcare interoperability engineering for every healthcare business \u2014 imaging (DICOM/DICOMweb/PACS), clinical interop (HL7 v2, FHIR, CDA/C-CDA), IHE, revenue cycle (X12, NCPDP, HIPAA), medical devices (IEEE 11073) and terminology. All agents and skills resolve the standard version your project uses (e.g. DICOM 2024e, HL7 v2.3.1, FHIR R4) instead of assuming the latest.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Healthcare Copilot contributors"
+  },
+  "keywords": [
+    "healthcare",
+    "interoperability",
+    "dicom",
+    "dicomweb",
+    "pacs",
+    "hl7v2",
+    "fhir",
+    "cda",
+    "ccda",
+    "ihe",
+    "x12",
+    "hipaa",
+    "ncpdp",
+    "ieee-11073",
+    "snomed",
+    "loinc",
+    "terminology",
+    "phi",
+    "versioning"
+  ],
+  "extensions": {
+    "com.github.awesome-copilot": {
+      "agents": [
+        "./agents/cda-ccda-engineer.agent.md",
+        "./agents/clinical-terminology-specialist.agent.md",
+        "./agents/dicom-imaging-engineer.agent.md",
+        "./agents/fhir-engineer.agent.md",
+        "./agents/healthcare-conformance-tester.agent.md",
+        "./agents/healthcare-interop-architect.agent.md",
+        "./agents/healthcare-security-privacy-reviewer.agent.md",
+        "./agents/hl7v2-integration-engineer.agent.md",
+        "./agents/ihe-profile-advisor.agent.md",
+        "./agents/medical-device-interop-engineer.agent.md",
+        "./agents/ncpdp-pharmacy-engineer.agent.md",
+        "./agents/x12-edi-engineer.agent.md"
+      ],
+      "skills": [
+        "./skills/ccda-document-review",
+        "./skills/conformance-test-plan",
+        "./skills/dicom-conformance-statement",
+        "./skills/dicomweb-api-design",
+        "./skills/fhir-version-compatibility",
+        "./skills/healthcare-version-detect",
+        "./skills/hl7v2-message-inspector",
+        "./skills/ihe-profile-mapping",
+        "./skills/phi-deidentification",
+        "./skills/terminology-binding",
+        "./skills/x12-transaction-analyzer"
+      ],
+      "hooks": [
+        "./hooks/phi-scanner"
+      ]
+    }
+  }
+}

@@ -29,8 +29,7 @@ Every resource here:
 
 ```bash
 copilot plugin marketplace add thakurnt/healthcare-copilot
-copilot plugin install healthcare-core@healthcare-copilot
-copilot plugin install healthcare-imaging@healthcare-copilot   # or: healthcare-clinical-interop, healthcare-revenue-cycle, healthcare-devices
+copilot plugin install healthcare@healthcare-copilot
 ```
 
 VS Code: add `"chat.plugins.marketplaces": ["thakurnt/healthcare-copilot"]` to settings, then run **Chat: Plugins**.
@@ -40,8 +39,7 @@ Full guide (VS Code, updates, instructions & hooks, troubleshooting): **[docs/in
 
 ```bash
 git clone https://github.com/thakurnt/healthcare-copilot.git
-python3 healthcare-copilot/scripts/install.py ../your-project --tool copilot --plugin healthcare-imaging
-python3 healthcare-copilot/scripts/install.py ../your-project --tool claude  --plugin healthcare-clinical-interop
+python3 healthcare-copilot/scripts/install.py ../your-project --tool copilot   # or: claude | both
 ```
 
 ### Then declare your versions
@@ -61,18 +59,20 @@ More: [docs/getting-started.md](docs/getting-started.md)
 | 🎯 Skills | 11 | [docs/README.skills.md](docs/README.skills.md) |
 | 🪝 Hooks | 1 | [docs/README.hooks.md](docs/README.hooks.md) |
 | ⚡ Workflows | 1 | [docs/README.workflows.md](docs/README.workflows.md) |
-| 🔌 Plugins | 5 | [docs/README.plugins.md](docs/README.plugins.md) |
+| 🔌 Plugin | 1 (everything) | [docs/README.plugins.md](docs/README.plugins.md) |
 | 📚 Standards catalog | 15 | [docs/README.standards.md](docs/README.standards.md) |
 
-### Plugins by healthcare business
+### One plugin, every healthcare business
 
-| Plugin | For | Highlights |
+`healthcare` installs all agents and skills. Agents cover each business, and the version-resolution rule keeps them on the versions your project declares:
+
+| Business | Typical systems | Agents |
 |---|---|---|
-| `healthcare-core` | Everyone (always installed) | Interop architect, security & privacy reviewer, terminology specialist, conformance tester, version detection, PHI de-identification, PHI scanner hook |
-| `healthcare-imaging` | PACS, RIS, VNA, modalities, gateways, viewers | DICOM engineer, IHE advisor, conformance statements, DICOMweb design |
-| `healthcare-clinical-interop` | HIS/EMR/EHR/LIS, FHIR servers, HIE, MPI, platforms | HL7 v2, FHIR, C-CDA engineers; HL7 v2 inspector, FHIR version compatibility, C-CDA review |
-| `healthcare-revenue-cycle` | Payers, clearinghouses, providers' billing, pharmacy | X12 EDI and NCPDP engineers, X12 analyzer |
-| `healthcare-devices` | Patient monitoring, POC, device connectivity | IEEE 11073 / IHE PCD engineer |
+| Medical imaging | PACS, RIS, VNA, modalities, gateways, viewers | DICOM Imaging Engineer, IHE Profile Advisor |
+| Hospital systems & interoperability | HIS/EMR/EHR/LIS, FHIR servers, HIE, MPI | HL7 v2 Integration Engineer, FHIR Engineer, CDA C-CDA Engineer |
+| Insurance & pharmacy | Claims, eligibility, prior auth, remittance, e-prescribing | X12 EDI Engineer, NCPDP Pharmacy Engineer |
+| Medical devices | Monitoring, POC, device connectivity | Medical Device Interop Engineer |
+| Everyone | Architecture, security, terminology, testing | Interop Architect, Security Privacy Reviewer, Terminology Specialist, Conformance Tester |
 
 ### Standards domains
 

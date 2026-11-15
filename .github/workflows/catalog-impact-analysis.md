@@ -50,4 +50,4 @@ Title: `Catalog changed in <short sha> — content alignment`
 
 - What changed in the catalog (table).
 - Checklist grouped by file: `- [ ] path:line — what to change (must update / review)`.
-- Reminder: run `python3 .github/scripts/build.py`, bump the `version` of each affected plugin in `plugins/<name>/plugin.json`.
+- Reminder: run `python3 .github/scripts/build.py`, bump the `version` in `plugins/healthcare/plugin.json`.

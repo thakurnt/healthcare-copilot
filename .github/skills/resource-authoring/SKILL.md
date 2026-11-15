@@ -25,7 +25,7 @@ python3 .github/skills/resource-authoring/scripts/new_resource.py instruction nc
 - Distinguish technical standard / integration profile / IG / legal / terminology.
 
 ## Wire up
-1. Add the resource to one or more `plugins/<name>/plugin.json` (`extensions.com.github.awesome-copilot.agents|skills`) and bump those plugins' `version`.
+1. Add the resource to `plugins/healthcare/plugin.json` (`extensions.com.github.awesome-copilot.agents|skills`) and bump its `version` (the build fails if an agent or skill is in no plugin).
 2. `python3 .github/scripts/build.py && python3 .github/scripts/content_lint.py && python3 -m unittest discover -s tests`.
 3. If you added a script, add a test in `tests/test_tooling.py`.
 4. Use the `standards-fact-check` skill on your own claims before opening the PR.

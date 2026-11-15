@@ -4,15 +4,9 @@ This repository is a **Copilot plugin marketplace** named `healthcare-copilot`. 
 [`.github/plugin/marketplace.json`](../.github/plugin/marketplace.json); the packaged plugins live in
 [`dist/plugins/`](../dist/plugins).
 
-## Available plugins
+## One plugin: `healthcare`
 
-| Plugin | Install name | For |
-|---|---|---|
-| Core (recommended for everyone) | `healthcare-core` | Version detection, interop architect, security/privacy reviewer, terminology, conformance testing |
-| Imaging | `healthcare-imaging` | PACS, RIS, VNA, modalities, DICOM gateways, viewers |
-| Clinical interop | `healthcare-clinical-interop` | HIS/EMR/EHR/LIS, HL7 v2, FHIR, C-CDA, HIE/MPI, IHE ITI |
-| Revenue cycle | `healthcare-revenue-cycle` | X12 claims/eligibility/remittance/prior auth, NCPDP |
-| Devices | `healthcare-devices` | IEEE 11073, IHE PCD, device-to-EHR |
+A single plugin installs **all 12 agents and 11 skills**, covering imaging (DICOM/DICOMweb/PACS), clinical interop (HL7 v2, FHIR, CDA/C-CDA), IHE, revenue cycle (X12, NCPDP, HIPAA), medical devices (IEEE 11073), terminology, security/privacy and conformance testing. See [README.agents.md](README.agents.md) and [README.skills.md](README.skills.md).
 
 ---
 
@@ -24,9 +18,8 @@ This repository is a **Copilot plugin marketplace** named `healthcare-copilot`. 
 # 1. Register the marketplace (once per machine)
 copilot plugin marketplace add thakurnt/healthcare-copilot
 
-# 2. Install core + the plugin(s) for your business
-copilot plugin install healthcare-core@healthcare-copilot
-copilot plugin install healthcare-imaging@healthcare-copilot
+# 2. Install everything
+copilot plugin install healthcare@healthcare-copilot
 ```
 
 Inside an interactive `copilot` session you can also browse:
@@ -39,13 +32,13 @@ Inside an interactive `copilot` session you can also browse:
 
 ```bash
 copilot plugin marketplace update healthcare-copilot
-copilot plugin update healthcare-imaging@healthcare-copilot
+copilot plugin update healthcare@healthcare-copilot
 ```
 
 **Remove:**
 
 ```bash
-copilot plugin uninstall healthcare-imaging@healthcare-copilot
+copilot plugin uninstall healthcare@healthcare-copilot
 ```
 
 > Run `copilot plugin --help` if a sub-command differs in your CLI version — plugin commands are still evolving.
@@ -59,7 +52,7 @@ copilot plugin uninstall healthcare-imaging@healthcare-copilot
    ]
    ```
 2. Open the Extensions view and search `@agentPlugins`, **or** run **Chat: Plugins** from the Command Palette.
-3. Install `healthcare-core` and the domain plugin you need.
+3. Install `healthcare`.
 4. Pick an agent (e.g. *DICOM Imaging Engineer*) from the agent dropdown in Copilot Chat.
 
 > Agent plugins in VS Code may require a recent VS Code / Copilot Chat version and, in organisations, an admin policy that allows plugins. If the setting name differs in your build, search settings for "plugins marketplaces".
@@ -70,11 +63,11 @@ Use this when plugins aren't available or allowed in your environment, or when y
 
 ```bash
 git clone https://github.com/thakurnt/healthcare-copilot.git
-python3 healthcare-copilot/scripts/install.py /path/to/your-project --tool copilot --plugin healthcare-imaging
+python3 healthcare-copilot/scripts/install.py /path/to/your-project --tool copilot
 ```
 
 This writes `.github/agents/`, `.github/instructions/`, `.github/skills/`, `.github/hooks/` and a starter
-`.github/healthcare-profile.yml`. Add `--dry-run` to preview, `--plugin all` for everything, `--tool both` to also set up Claude Code.
+`.github/healthcare-profile.yml`. Add `--dry-run` to preview, `--tool both` to also set up Claude Code.
 
 ---
 
@@ -132,6 +125,7 @@ Commit it to your default branch; it runs at the end of Copilot coding agent ses
 | Symptom | Fix |
 |---|---|
 | `marketplace not found` / `unknown marketplace` | Run `copilot plugin marketplace add thakurnt/healthcare-copilot` first; use the `@healthcare-copilot` suffix. |
+| You installed the earlier domain plugins (`healthcare-core`, `healthcare-imaging`, …) | Uninstall them (`copilot plugin uninstall healthcare-imaging@healthcare-copilot`, etc.), run `copilot plugin marketplace update healthcare-copilot`, then install `healthcare`. |
 | Plugin installs but agents don't show | Restart the Copilot CLI session / reload VS Code; check `copilot plugin list`. |
 | Answers assume the latest version | Add or fix `.github/healthcare-profile.yml`; mention the version in your prompt. |
 | Skill scripts fail | They need Python 3.8+ on `PATH` (standard library only). |
@@ -146,5 +140,5 @@ python3 .github/scripts/build.py      # regenerates dist/plugins/ and .github/pl
 git add -A && git commit -m "..." && git push
 ```
 
-Bump `version` in `plugins/<name>/plugin.json` when a plugin changes so users get the update. CI (`build.py --check`) fails if
+Bump `version` in `plugins/healthcare/plugin.json` when content changes so users get the update. CI (`build.py --check`) fails if
 `dist/` is out of date.

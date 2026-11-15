@@ -26,7 +26,7 @@ Healthcare content has a risk awesome-copilot doesn't: **factual errors about sp
 | Workflow | Trigger | Checks |
 |---|---|---|
 | `validate.yml` → `validate` | PR, push to main | `build.py --check` (frontmatter, names, plugin refs, generated docs / `dist/plugins` / marketplace in sync) · `content_lint.py` (HC001–HC007, see below) · JSON well-formed · `unittest` suite for skill scripts, installer and tooling |
-| `validate.yml` → `plugin-versions` | PR | Packaged plugin content changed ⇒ `version` bumped (`check_plugin_versions.py`) |
+| `validate.yml` → `plugin-versions` | PR | Packaged plugin content changed ⇒ `version` bumped (`check_plugin_versions.py`); `build.py` also fails if any agent/skill is missing from the `healthcare` plugin |
 | `source-link-check.yml` | Weekly, PR touching catalog | Every catalog `sources` URL reachable (`check_sources.py`), table in job summary |
 | `copilot-setup-steps.yml` | Manual / on change | Python + gh-aw CLI for the Copilot coding agent |
 

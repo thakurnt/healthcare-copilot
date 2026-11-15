@@ -96,12 +96,20 @@ class RepoTooling(unittest.TestCase):
 
     def test_installer_both_tools(self):
         with tempfile.TemporaryDirectory() as d:
-            r = run("scripts/install.py", d, "--tool", "both", "--plugin", "all")
+            r = run("scripts/install.py", d, "--tool", "both")
             self.assertEqual(r.returncode, 0, r.stderr)
             self.assertTrue(os.path.exists(os.path.join(d, ".github/agents/fhir-engineer.agent.md")))
             self.assertTrue(os.path.exists(os.path.join(d, ".claude/agents/fhir-engineer.md")))
             self.assertTrue(os.path.exists(os.path.join(d, ".github/healthcare-profile.yml")))
             self.assertIn("healthcare-copilot:begin", open(os.path.join(d, "CLAUDE.md")).read())
+
+    def test_single_plugin_packages_everything(self):
+        m = json.load(open(os.path.join(ROOT, ".github/plugin/marketplace.json")))
+        self.assertEqual([p["name"] for p in m["plugins"]], ["healthcare"])
+        base = os.path.join(ROOT, "dist/plugins/healthcare")
+        agents = {f[:-len(".agent.md")] for f in os.listdir(os.path.join(ROOT, "agents"))}
+        self.assertEqual({f[:-3] for f in os.listdir(os.path.join(base, "com.github.copilot/agents"))}, agents)
+        self.assertEqual(set(os.listdir(os.path.join(base, "skills"))), set(os.listdir(os.path.join(ROOT, "skills"))))
 
     def test_marketplace_matches_plugins(self):
         m = json.load(open(os.path.join(ROOT, ".github/plugin/marketplace.json")))

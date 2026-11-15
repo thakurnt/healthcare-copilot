@@ -29,5 +29,5 @@ metadata:
    python3 .github/scripts/content_lint.py
    python3 -m unittest discover -s tests
    ```
-4. Bump `version` in `plugins/<name>/plugin.json` for each plugin whose packaged content changed (CI enforces this), then rebuild.
+4. Bump `version` in `plugins/healthcare/plugin.json` when packaged content changed (CI enforces this), then rebuild.
 5. PR title: `catalog: <standard> <change>`; link the source issue.

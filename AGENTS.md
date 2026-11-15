@@ -15,7 +15,7 @@ Its defining rule: **every resource is version-aware**. Nothing assumes the newe
 ├── skills/        # Agent Skills (<name>/SKILL.md + scripts/, references/, assets/)
 ├── hooks/         # Session hooks (<name>/README.md + hooks.json + scripts)
 ├── workflows/     # GitHub Agentic Workflows (*.md)
-├── plugins/       # Installable bundles (<name>/plugin.json) by business domain
+├── plugins/       # plugins/healthcare/plugin.json — the single installable plugin (source)
 ├── standards/     # catalog.json — published / mandated versions (NOT targets)
 ├── templates/     # healthcare-profile.yml for consuming projects
 ├── examples/      # Synthetic sample artifacts across old and new versions
@@ -62,7 +62,7 @@ python3 .github/scripts/content_lint.py    # HC001-HC007 content rules
 python3 -m unittest discover -s tests      # script + tooling tests
 ```
 
-Bump `version` in `plugins/<name>/plugin.json` for every plugin whose packaged content changed (CI enforces it).
+Bump `version` in `plugins/healthcare/plugin.json` when packaged content changed (CI enforces it). Every agent and skill must be listed there (the build fails otherwise).
 
 ## Maintainer automation
 

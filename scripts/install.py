@@ -2,9 +2,11 @@
 """Install Healthcare Copilot resources into a target project for GitHub Copilot,
 Claude Code, or both.
 
-    python3 scripts/install.py /path/to/project --tool copilot --plugin healthcare-imaging
-    python3 scripts/install.py /path/to/project --tool claude  --plugin all
-    python3 scripts/install.py /path/to/project --tool both    --plugin healthcare-clinical-interop --dry-run
+    python3 scripts/install.py /path/to/project --tool copilot
+    python3 scripts/install.py /path/to/project --tool claude
+    python3 scripts/install.py /path/to/project --tool both --dry-run
+
+Installs everything in the single `healthcare` plugin (all agents, skills, instructions, hooks).
 
 Layout written
   copilot: .github/agents/*.agent.md, .github/instructions/*.instructions.md,
@@ -86,19 +88,16 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("project")
     ap.add_argument("--tool", choices=["copilot", "claude", "both"], default="copilot")
-    ap.add_argument("--plugin", action="append", default=None, help="plugin name (repeatable) or 'all'")
     ap.add_argument("--force", action="store_true")
     ap.add_argument("--dry-run", action="store_true")
     a = ap.parse_args()
 
     proj = os.path.abspath(a.project)
-    plugins = a.plugin or ["healthcare-core"]
-    if "healthcare-core" not in plugins and plugins != ["all"]:
-        plugins.append("healthcare-core")
+    plugins = ["all"]
     c = plugin_contents(plugins)
     instr = all_instructions()
     tools = ["copilot", "claude"] if a.tool == "both" else [a.tool]
-    print(f"Installing plugins {plugins} for {tools} into {proj}")
+    print(f"Installing Healthcare Copilot for {tools} into {proj}")
 
     for tool in tools:
         if tool == "copilot":

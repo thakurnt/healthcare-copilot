@@ -6,7 +6,7 @@
 
 ```bash
 copilot plugin marketplace add thakurnt/healthcare-copilot
-copilot plugin install healthcare-core@healthcare-copilot
+copilot plugin install healthcare@healthcare-copilot
 ```
 
 **Or copy into your project:**
@@ -16,16 +16,16 @@ git clone https://github.com/thakurnt/healthcare-copilot.git
 cd healthcare-copilot
 
 # GitHub Copilot (VS Code / Copilot CLI / coding agent)
-python3 scripts/install.py ../my-pacs --tool copilot --plugin healthcare-imaging
+python3 scripts/install.py ../my-pacs --tool copilot
 
 # Claude Code
-python3 scripts/install.py ../my-pacs --tool claude --plugin healthcare-imaging
+python3 scripts/install.py ../my-pacs --tool claude
 
 # Both, everything, preview only
-python3 scripts/install.py ../my-pacs --tool both --plugin all --dry-run
+python3 scripts/install.py ../my-pacs --tool both --dry-run
 ```
 
-`healthcare-core` is always included. Existing files are kept unless you pass `--force`.
+Everything is installed (all agents, skills, instructions, hooks). Existing files are kept unless you pass `--force`.
 
 ## 2. Declare your versions
 
