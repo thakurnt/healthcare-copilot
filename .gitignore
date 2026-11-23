@@ -7,3 +7,5 @@ node_modules/
 # never commit real data
 **/real-data/
 **/phi/
+# gh-aw downloaded run logs (gh aw audit / gh aw logs)
+.github/aw/logs/
